@@ -61,7 +61,7 @@ li p:hover{
     bottom: 10vh;
 }
 
-section{
+main > section{
     flex-grow: 1;
     display: flex;
     justify-content: center;
