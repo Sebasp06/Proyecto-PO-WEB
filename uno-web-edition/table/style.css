@@ -9,6 +9,16 @@
     padding: 0;
 }
 
+.blue{
+    background-color: #0A78B9;
+}
+
+.bottom-number{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
 body{
     min-height: 100vh;
     min-width: 100vh;
@@ -18,11 +28,16 @@ body{
 .card{
     width: 120px;
     height: 180px;
+    display: flex;
+    flex-direction: column;
+    font-family: "Barlow Condensed", sans-serif;
+    color: #fff;
     border-radius: 8px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
     position: relative;
     transition: transform 0.2s ease;
 }
+
 .card:not(:first-child) {
     margin-left: -70px; 
 }
@@ -30,7 +45,7 @@ body{
 
 .card:hover {
     transform: translateY(-10px); 
-    z-index: 10;
+    z-index: 30;
 }
 
 .card-hidden{
@@ -42,6 +57,15 @@ body{
     height: 200px;
     display: flex;
     gap: 10px;
+}
+
+.edge{
+    font-size: 20px;
+    padding: 10px;
+}
+
+.green{
+    background-color: #84C03F;
 }
 
 li{
@@ -70,8 +94,25 @@ li p:hover{
     transition: all .5s ease;
     color: #fff;
 }
+
+main > section{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
 .main-window{
     display: flex;
+}
+
+.mid-number{
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    font-size: 64px;
+    justify-content: center;
 }
 
 .option-sidebar{
@@ -90,12 +131,10 @@ li p:hover{
     bottom: 10vh;
 }
 
-main > section{
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
+
+.red{
+    background-color: #ED1C24;
 }
 
 .side-img{
@@ -148,7 +187,12 @@ ul{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-around;
     border-radius: 10px;
     background-color: #032546;
+}
+
+.yellow{
+    background-color: #FFD237;
 }
 
