@@ -1,2 +1,4 @@
-let playerDeck = document.getElementById("player-deck");
-console.log(playerDeck);
+let deck = [];
+let discardPile = [];
+const colors = ['red','green','blue','yellow'];
+const specialCards = ['jump','reverse','draw2'];
