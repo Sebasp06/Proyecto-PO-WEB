@@ -16,66 +16,67 @@
     <main id="main-window" class="main-window">
         <aside id="option-sidebar" class="option-sidebar">
             <img src="../assets/images/uno-side.png" alt="imagen de uno" class="side-img">
-            <ul>
-                <li><p>Home</p></li>
-                <li><p>Game Mode</p></li>
-                <li><p>Rules</p></li>
+            <ul class="options">
+                <li class="option"><p>Home</p></li>
+                <li class="option"><p>Game Mode</p></li>
+                <li class="option"><p>Rules</p></li>
             </ul>
         </aside>
         <section>
             <section id="welcome-window" class="welcome-window">
-                <div class="rival-deck deck">
-                    <figure class="card card-hidden"></figure>
-                    <figure class="card card-hidden"></figure>
-                    <figure class="card card-hidden"></figure>
-                    <figure class="card card-hidden"></figure>
-                    <figure class="card card-hidden"></figure>
-                    <figure class="card card-hidden"></figure>
-                    <figure class="card card-hidden"></figure>
-                </div>
-                <div class="table-deck deck">
-                    <figure class="card card-hidden"></figure>
-                    <figure class="card card-hidden"></figure>
-                </div>
-                <div class="player-deck deck">
-                    <figure class="card red red-1">
+                <ul class="rival-deck deck" id="rival-deck">
+                    <li class="card card-hidden"></li>
+                    <li class="card card-hidden"></li>
+                    <li class="card card-hidden"></li>
+                    <li class="card card-hidden"></li>
+                    <li class="card card-hidden"></li>
+                    <li class="card card-hidden"></li>
+                    <li class="card card-hidden"></li>
+                </ul>
+                <ul class="table-deck deck" id="table-deck">
+                    <li class="card card-hidden"></li>
+                    <li class="card card-hidden"></li>
+                </ul>
+                <ul class="player-deck deck" id="player-deck">
+                    <li class="card red red-1">
                         <p class="top-number number edge">1</p>
                         <p class="mid-number number">1</p>
                         <p class="bottom-number number edge">1</p>
-                    </figure>
-                    <figure class="card blue blue-8">
+                    </li>
+                    <li class="card blue blue-8">
                         <p class="top-number number edge">8</p>
                         <p class="mid-number number">8</p>
                         <p class="bottom-number number edge">8</p>
-                    </figure>
-                    <figure class="card green green-5">
+                    </li>
+                    <li class="card green green-5">
                         <p class="top-number number edge">5</p>
                         <p class="mid-number number">5</p>
                         <p class="bottom-number number edge">5</p>
-                    </figure>
-                    <figure class="card yellow yellow-2">
+                    </li>
+                    <li class="card yellow yellow-2">
                         <p class="top-number number edge">2</p>
                         <p class="mid-number number">2</p>
                         <p class="bottom-number number edge">2</p>
-                    </figure>
-                    <figure class="card red red-7">
+                    </li>
+                    <li class="card red red-7">
                         <p class="top-number number edge">7</p>
                         <p class="mid-number number">7</p>
                         <p class="bottom-number number edge">7</p>
-                    </figure>
-                    <figure class="card blue blue-4">
+                    </li>
+                    <li class="card blue blue-4">
                         <p class="top-number number edge">4</p>
                         <p class="mid-number number">4</p>
                         <p class="bottom-number number edge">4</p>
-                    </figure>
-                    <figure class="card green green-1">
+                    </li>
+                    <li class="card green green-1">
                         <p class="top-number number edge">1</p>
                         <p class="mid-number number">1</p>
                         <p class="bottom-number number edge">1</p>
-                    </figure>
-                </div>
+                    </li>
+                </ul>
             </section>
         </section>
     </main>
+    <script src="script.js"></script>
 </body>
 </html>

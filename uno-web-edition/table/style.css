@@ -55,6 +55,7 @@ body{
 
 .deck{
     height: 200px;
+    list-style-type: none;
     display: flex;
     gap: 10px;
 }
@@ -68,21 +69,21 @@ body{
     background-color: #84C03F;
 }
 
-li{
+.option{
     padding: 10px;
     width: 100%;
     cursor: pointer;
     transition: all .5s ease;
 }
 
-li:hover{
+.option:hover{
     transition: all .5s ease;
     background-color: #2d2d2d;
     color: #fff;
 }
 
 
-li p{
+.option p{
     margin-left: 20px;
     transition: all .5s ease;
     font-family: "Poppins", sans-serif;
@@ -90,7 +91,7 @@ li p{
     color: #b0b0b0;
 }
 
-li p:hover{
+.option p:hover{
     transition: all .5s ease;
     color: #fff;
 }
@@ -174,7 +175,7 @@ strong{
     color: #fff;
 }
 
-ul{
+.options{
     display: flex;
     flex-direction: column;
     gap: 10px;
