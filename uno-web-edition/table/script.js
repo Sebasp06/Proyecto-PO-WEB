@@ -3,6 +3,10 @@ let discardPile = [];
 const colors = ['red','green','blue','yellow'];
 const specialCards = ['jump','reverse','draw2'];
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
 function initializeDeck(){
     
 
@@ -38,15 +42,36 @@ function initializeDeck(){
             */
             deck.push(card);
         }
-        
     }
-    console.log(deck);
-    
 }
 
 function dealCards(){
     let playerDeck = document.getElementById('player-deck');
+    playerDeck.innerHTML = ``;
+
+    for (let numberOfCards = 0; numberOfCards < 7; numberOfCards++) {
+        let index = getRandomInt(deck.length); 
+        const card = deck[index];
     
+        if (card && card.value !== undefined) {
+            const cardColor = card.color;
+            const cardID = card.id;
+            const cardNumber = card.value;
+    
+            playerDeck.innerHTML += `
+            <li class="card ${cardColor} ${cardID}">
+                <p class="top-number number edge">${cardNumber}</p>
+                <p class="mid-number number">${cardNumber}</p>
+                <p class="bottom-number number edge">${cardNumber}</p>
+            </li>`;
+    
+            deck.splice(index, 1); 
+        } else {
+            console.warn("Carta no válida en posición:", index, card);
+        }
+    }
 }
 
+
 initializeDeck();
+dealCards();
