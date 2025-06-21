@@ -39,7 +39,7 @@ body{
 }
 
 .card:not(:first-child) {
-    margin-left: -70px; 
+    margin-left: -55px; 
 }
 
 

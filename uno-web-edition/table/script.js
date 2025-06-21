@@ -7,6 +7,13 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
+function shuffleCards(){
+    for(let i = 0; i < deck.length; i++){
+        let j = Math.floor(Math.random() * (i + 1));
+        [deck[i],deck[j]] = [deck[j],deck[i]];
+    }
+}
+
 function initializeDeck(){
     
 
@@ -43,6 +50,9 @@ function initializeDeck(){
             deck.push(card);
         }
     }
+    shuffleCards();
+    console.log(deck);
+    
 }
 
 function dealCards(){
@@ -59,7 +69,7 @@ function dealCards(){
             const cardNumber = card.value;
     
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}">
+            <li class="card ${cardColor} ${cardID}" id="${cardID}">
                 <p class="top-number number edge">${cardNumber}</p>
                 <p class="mid-number number">${cardNumber}</p>
                 <p class="bottom-number number edge">${cardNumber}</p>
