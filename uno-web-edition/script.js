@@ -3,6 +3,19 @@ let discardPile = [];
 const colors = ['red','green','blue','yellow'];
 const specialCards = ['jump','reverse','draw2'];
 
+class Card{
+    #id;
+    #color;
+    #type;
+    #value;
+    constructor (id,color,type,value){
+        this.#id = id;
+        this.#color = color;
+        this.#type = type;
+        this.#value = value
+    }
+}
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
