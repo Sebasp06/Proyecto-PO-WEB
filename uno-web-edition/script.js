@@ -25,7 +25,21 @@ function initializeDeck(){
             value: 0
     
         };
+        const cardJump = {
+            id: colors[color] + '-jump',
+            color: colors[color],
+            type: 'jump',
+            value: null
+        };
+        const cardReverse = {
+            id: colors[color] + '-reverse',
+            color: colors[color],
+            type: 'reverse',
+            value: null
+        };
         deck.push(card);
+        deck.push(cardJump);
+        deck.push(cardReverse);
         for(let number = 1; number < 10; number++){
 
             const card = {
@@ -62,8 +76,9 @@ function dealCards(){
     for (let numberOfCards = 0; numberOfCards < 7; numberOfCards++) {
         let index = getRandomInt(deck.length); 
         const card = deck[index];
-    
-        if (card && card.value !== undefined) {
+        console.log(card);
+        
+        if (card && card.value !== undefined && card.type === 'number') {
             const cardColor = card.color;
             const cardID = card.id;
             const cardNumber = card.value;
@@ -76,8 +91,25 @@ function dealCards(){
             </li>`;
     
             deck.splice(index, 1); 
-        } else {
-            console.warn("Carta no válida en posición:", index, card);
+        } else if(card && card.type == 'jump' && card.value !== undefined){
+            const cardColor = card.color;
+            const cardID = card.id;
+            playerDeck.innerHTML += `
+            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img-top">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img-bottom">
+            </li>`;
+
+        }else if(card && card.type == 'reverse' && card.value !== undefined){
+            const cardColor = card.color;
+            const cardID = card.id;
+            playerDeck.innerHTML += `
+            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-top">
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img">
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-bottom">
+            </li>`;
         }
     }
 }
