@@ -9,6 +9,31 @@
     padding: 0;
 }
 
+.jump-img-top,.reverse-img-top{
+    margin: 10px 10px 10px 10px;
+    height: 16px;
+    width: 16px;
+    object-fit: contain;
+}
+
+.jump-img-bottom,.reverse-img-bottom{
+    margin: 10px 10px 10px 10px;
+    height: 16px;
+    width: 16px;
+    object-fit: contain;
+    align-self: flex-end;
+    justify-self: flex-end;
+}
+
+.jump-img,.reverse-img{
+    height: 64px;
+    width: 64px;
+    object-fit: contain;
+    flex-grow: 1;
+    align-self: center;
+    justify-self: center;
+}
+
 .blue{
     background-color: #0A78B9;
 }
