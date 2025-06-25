@@ -57,7 +57,7 @@ function dealCards(){
             const cardNumber = card.value;
     
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
                 <p class="top-number number edge">${cardNumber}</p>
                 <p class="mid-number number">${cardNumber}</p>
                 <p class="bottom-number number edge">${cardNumber}</p>
@@ -68,7 +68,7 @@ function dealCards(){
             const cardColor = card.color;
             const cardID = card.id;
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
                 <img src="assets/images/block.svg" alt="carta salto" class="jump-img-top">
                 <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
                 <img src="assets/images/block.svg" alt="carta salto" class="jump-img-bottom">
@@ -79,7 +79,7 @@ function dealCards(){
             const cardColor = card.color;
             const cardID = card.id;
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
                 <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-top">
                 <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img">
                 <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-bottom">
@@ -88,7 +88,7 @@ function dealCards(){
             const cardColor = card.color;
             const cardID = card.id;
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
                 <p class="top-number number edge">+4</p>
                 <img src="assets/images/draw4.svg" alt="carta salto" class="reverse-img">
                 <p class="bottom-number number edge">+4</p>
@@ -97,7 +97,7 @@ function dealCards(){
             const cardColor = card.color;
             const cardID = card.id;
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
                 <p class="top-number number edge">+2</p>
                 <img src="assets/images/draw2.svg" alt="carta salto" class="reverse-img">
                 <p class="bottom-number number edge">+2</p>
@@ -106,7 +106,7 @@ function dealCards(){
             const cardColor = card.color;
             const cardID = card.id;
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}"> 
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}"> 
                 <img src="assets/images/color.svg" alt="carta salto" class="reverse-img">
             </li>`;
         }
@@ -126,13 +126,13 @@ function setSinglePlayerTable(){
     `
     <section id="welcome-window" class="welcome-window">
         <ul class="rival-deck deck" id="rival-deck">
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
         </ul>
         <ul class="table-deck deck" id="table-deck">
             <li class="card card-hidden"></li>

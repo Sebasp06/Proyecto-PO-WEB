@@ -42,12 +42,12 @@ body{
     transition: transform 0.2s ease;
 }
 
-.card:not(:first-child) {
+.card-deck:not(:first-child) {
     margin-left: -55px; 
 }
 
 
-.card:hover {
+.card-deck:hover {
     transform: translateY(-10px); 
     z-index: 30;
 }
