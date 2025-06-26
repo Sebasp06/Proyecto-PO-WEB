@@ -43,6 +43,49 @@ function initializeDeck(){
     
 }
 
+function setDeckCard(){
+    const tableDeck = document.getElementById("table-deck");
+    tableDeck.innerHTML = ``;
+    let index = getRandomInt(deck.length); 
+    const card = deck[index];    
+        while(card && card.type !== 'number'){            
+            index = getRandomInt(deck.length);
+            const card = deck[index];
+            if (card && card.value !== undefined && card.type === 'number'){
+                const cardID = card.id;
+                const cardColor = card.color;
+                const cardNumber = card.value;
+                console.log(cardNumber);
+                
+                tableDeck.innerHTML += `
+                        <li class="card ${cardColor} ${cardID}" id="${cardID}">
+                            <p class="top-number number edge">${cardNumber}</p>
+                            <p class="mid-number number">${cardNumber}</p>
+                            <p class="bottom-number number edge">${cardNumber}</p>
+                        </li>
+                        <li class="card card-hidden"></li>
+                `;
+                return;
+            }
+            
+        }
+        const cardID = card.id;
+        const cardColor = card.color;
+        const cardNumber = card.value;
+                tableDeck.innerHTML += `
+                    
+                        <li class="card ${cardColor} ${cardID}" id="${cardID}">
+                            <p class="top-number number edge">${cardNumber}</p>
+                            <p class="mid-number number">${cardNumber}</p>
+                            <p class="bottom-number number edge">${cardNumber}</p>
+                        </li>
+                        <li class="card card-hidden"></li>
+
+        `;
+        
+        deck.splice(index, 1);
+}
+
 function dealCards(){
     let playerDeck = document.getElementById('player-deck');
     playerDeck.innerHTML = ``;
@@ -112,6 +155,7 @@ function dealCards(){
         }
         deck.splice(index, 1);
     }
+    setDeckCard();
 }
 
 
