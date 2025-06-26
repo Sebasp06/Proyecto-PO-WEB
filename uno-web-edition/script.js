@@ -1,7 +1,16 @@
 let deck = [];
 let discardPile = [];
 const colors = ['red','green','blue','yellow'];
-const specialCards = ['jump','reverse','draw2'];
+const specialCards = ['jump','reverse','draw-2','draw-4','change-color'];
+
+class Card{
+    constructor (id,color,type,value){
+        this.id = id;
+        this.color = color;
+        this.type = type;
+        this.value = value
+    }
+}
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -18,55 +27,63 @@ function initializeDeck(){
     
 
     for(let color = 0; color < 4; color ++){
-        const card = {
-            id: colors[color] + '-0',
-            color: colors[color],
-            type: 'number',
-            value: 0
-    
-        };
-        const cardJump = {
-            id: colors[color] + '-jump',
-            color: colors[color],
-            type: 'jump',
-            value: null
-        };
-        const cardReverse = {
-            id: colors[color] + '-reverse',
-            color: colors[color],
-            type: 'reverse',
-            value: null
-        };
-        deck.push(card);
-        deck.push(cardJump);
-        deck.push(cardReverse);
+        deck.push(new Card(colors[color] + '-0',colors[color],'number',0));
+        deck.push(new Card(colors[color] + '-jump',colors[color],'jump',null));
+        deck.push(new Card(colors[color] + '-reverse',colors[color],'reverse',null));
+        deck.push(new Card(`${colors[color]}-draw-2`,colors[color],'draw',2));
+        deck.push(new Card(`draw-4-${color + 1}`,'black','draw',4));
+        deck.push(new Card(`change-color-${color + 1}`,'black','change-color',null));
         for(let number = 1; number < 10; number++){
-
-            const card = {
-                id: colors[color] + '-' + number.toString(),
-                color: colors[color],
-                type: 'number',
-                value: number
-        
-            };
-            //preguntar a la profe respecto a esto
-            /*
-            const card2 = {
-                id: colors[color] + '-' + number.toString(),
-                color: colors[color],
-                type: 'number',
-                value: number
-        
-            };
-            
-            deck.push(card2);
-            */
-            deck.push(card);
+            deck.push(new Card(`${colors[color]}-${number.toString()}-1`,colors[color],'number',number));
+            deck.push(new Card(`${colors[color]}-${number.toString()}-2`,colors[color],'number',number));
         }
     }
     shuffleCards();
     console.log(deck);
     
+}
+
+function setDeckCard(){
+    const tableDeck = document.getElementById("table-deck");
+    tableDeck.innerHTML = ``;
+    let index = getRandomInt(deck.length); 
+    const card = deck[index];    
+        while(card && card.type !== 'number'){            
+            index = getRandomInt(deck.length);
+            const card = deck[index];
+            if (card && card.value !== undefined && card.type === 'number'){
+                const cardID = card.id;
+                const cardColor = card.color;
+                const cardNumber = card.value;
+                console.log(cardNumber);
+                
+                tableDeck.innerHTML += `
+                        <li class="card ${cardColor} ${cardID}" id="${cardID}">
+                            <p class="top-number number edge">${cardNumber}</p>
+                            <p class="mid-number number">${cardNumber}</p>
+                            <p class="bottom-number number edge">${cardNumber}</p>
+                        </li>
+                        <li class="card card-hidden"></li>
+                `;
+                return;
+            }
+            
+        }
+        const cardID = card.id;
+        const cardColor = card.color;
+        const cardNumber = card.value;
+                tableDeck.innerHTML += `
+                    
+                        <li class="card ${cardColor} ${cardID}" id="${cardID}">
+                            <p class="top-number number edge">${cardNumber}</p>
+                            <p class="mid-number number">${cardNumber}</p>
+                            <p class="bottom-number number edge">${cardNumber}</p>
+                        </li>
+                        <li class="card card-hidden"></li>
+
+        `;
+        
+        deck.splice(index, 1);
 }
 
 function dealCards(){
@@ -76,7 +93,6 @@ function dealCards(){
     for (let numberOfCards = 0; numberOfCards < 7; numberOfCards++) {
         let index = getRandomInt(deck.length); 
         const card = deck[index];
-        console.log(card);
         
         if (card && card.value !== undefined && card.type === 'number') {
             const cardColor = card.color;
@@ -84,34 +100,62 @@ function dealCards(){
             const cardNumber = card.value;
     
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
                 <p class="top-number number edge">${cardNumber}</p>
                 <p class="mid-number number">${cardNumber}</p>
                 <p class="bottom-number number edge">${cardNumber}</p>
             </li>`;
     
-            deck.splice(index, 1); 
+            
         } else if(card && card.type == 'jump' && card.value !== undefined){
             const cardColor = card.color;
             const cardID = card.id;
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
                 <img src="assets/images/block.svg" alt="carta salto" class="jump-img-top">
                 <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
                 <img src="assets/images/block.svg" alt="carta salto" class="jump-img-bottom">
             </li>`;
+            
 
-        }else if(card && card.type == 'reverse' && card.value !== undefined){
+        }else if(card && card.type === 'reverse' && card.value !== undefined){
             const cardColor = card.color;
             const cardID = card.id;
             playerDeck.innerHTML += `
-            <li class="card ${cardColor} ${cardID}" id="${cardID}">
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
                 <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-top">
                 <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img">
                 <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-bottom">
             </li>`;
+        }else if(card && card.type === 'draw' && card.value !== undefined && card.value === 4){
+            const cardColor = card.color;
+            const cardID = card.id;
+            playerDeck.innerHTML += `
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
+                <p class="top-number number edge">+4</p>
+                <img src="assets/images/draw4.svg" alt="carta salto" class="reverse-img">
+                <p class="bottom-number number edge">+4</p>
+            </li>`;
+        }else if(card && card.type === 'draw' && card.value !== undefined && card.value === 2){
+            const cardColor = card.color;
+            const cardID = card.id;
+            playerDeck.innerHTML += `
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}">
+                <p class="top-number number edge">+2</p>
+                <img src="assets/images/draw2.svg" alt="carta salto" class="reverse-img">
+                <p class="bottom-number number edge">+2</p>
+            </li>`;
+        }else if(card && card.type === 'change-color' && card.value !== undefined){
+            const cardColor = card.color;
+            const cardID = card.id;
+            playerDeck.innerHTML += `
+            <li class="card card-deck ${cardColor} ${cardID}" id="${cardID}"> 
+                <img src="assets/images/color.svg" alt="carta salto" class="reverse-img">
+            </li>`;
         }
+        deck.splice(index, 1);
     }
+    setDeckCard();
 }
 
 
@@ -126,13 +170,13 @@ function setSinglePlayerTable(){
     `
     <section id="welcome-window" class="welcome-window">
         <ul class="rival-deck deck" id="rival-deck">
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
-            <li class="card card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
+            <li class="card card-deck card-hidden"></li>
         </ul>
         <ul class="table-deck deck" id="table-deck">
             <li class="card card-hidden"></li>
