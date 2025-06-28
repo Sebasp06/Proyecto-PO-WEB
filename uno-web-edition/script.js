@@ -158,12 +158,6 @@ function dealCards(){
     setDeckCard();
 }
 
-
-//initializeDeck();
-//dealCards();
-
-//background-color: #032546;
-
 function setSinglePlayerTable(){
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
@@ -178,6 +172,7 @@ function setSinglePlayerTable(){
             <li class="card card-deck card-hidden"></li>
             <li class="card card-deck card-hidden"></li>
         </ul>
+
         <ul class="table-deck deck" id="table-deck">
             <li class="card card-hidden"></li>
             <li class="card card-hidden"></li>
@@ -193,8 +188,198 @@ function setSinglePlayerTable(){
     dealCards();
 }
 
+function setV3PlayerTable(){
+    let rightWindow = document.getElementById("right-window");
+    rightWindow.innerHTML = 
+    `
+    <section id="welcome-window" class="welcome-window">
 
-document.getElementById("welcome-window").addEventListener('click',(e) =>{
+    <div class="v3player-deck">
+        <div class= rival-one>
+            <ul class="rival-deck deck" id="rival-deck">
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+            </ul>
+        </div>
+        <div class= "middle">
+        <ul class="table-deck deck" id="table-deck">
+                <li class="card card-hidden"></li>
+                <li class="card card-hidden"></li>
+        </ul>
+        </div>
+        <div class= rival-two>
+        <ul class="rival-deck deck" id="rival-deck">
+            <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+        </div>
+
+        <div class= "player">
+            
+        <ul class="player-deck deck" id="player-deck">
+                    
+        </ul>
+        </div>
+        </div>
+    </section>
+    `;
+    let welcomeWindow = document.getElementById("welcome-window");
+    welcomeWindow.style.backgroundColor = "#032546"
+    welcomeWindow.style.height = "700px";
+    welcomeWindow.style.width = "1200px";
+    initializeDeck();
+    dealCards();
+}
+
+function setV4PlayerTable(){
+    let rightWindow = document.getElementById("right-window");
+    rightWindow.innerHTML = 
+    `
+    <section id="welcome-window" class="welcome-window">
+
+    <div class="v4player-deck">
+
+        <div class= rival-one>
+            <ul class="rival-deck deck" id="rival-deck">
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+            </ul>
+        </div>
+
+        <div class= rival-three>
+            <ul class="rival-deck deck" id="rival-deck">
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+            </ul>
+        </div>
+
+        <div class= rival-two>
+            <ul class="rival-deck deck" id="rival-deck">
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+                <li class="card card-deck card-hidden">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+                </li>
+            </ul>
+        </div>
+
+        <div class= "middle">
+            <ul class="table-deck deck" id="table-deck">
+                <li class="card card-hidden"></li>
+                <li class="card card-hidden"></li>
+            </ul>
+        </div>
+
+        <div class= "player">
+            
+        <ul class="player-deck deck" id="player-deck">
+                    
+        </ul>
+        </div>
+
+    </div>
+    </section>
+    `;
+    let welcomeWindow = document.getElementById("welcome-window");
+    welcomeWindow.style.backgroundColor = "#032546"
+    welcomeWindow.style.height = "700px";
+    welcomeWindow.style.width = "1200px";
+    initializeDeck();
+    dealCards();
+}
+
+function gamingModeSelection() {
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
     `
@@ -206,7 +391,7 @@ document.getElementById("welcome-window").addEventListener('click',(e) =>{
                 <h3>Single player</h3>
                 <p>Juega local</p>
             </div>
-            <div id="multi-player" class="selection-card">
+            <div id="multi-player" class="selection-card" onclick="multiplayerSelection()">
                 <img src="assets/images/multiplayericon.svg" alt="logo multiplayer">
                 <h3>Multi-player</h3>
                 <p>2-4 Jugadorres</p>
@@ -214,6 +399,60 @@ document.getElementById("welcome-window").addEventListener('click',(e) =>{
         </div>
     </div>
     `;
-});
+}
+
+function multiplayerSelection() {
+    let rightWindow = document.getElementById("right-window");
+    rightWindow.innerHTML = 
+    `
+    <div id="gaming-mode" class="selection-windowPlayer">
+        <h2>Modo de juego</h2>
+        <div id="gaming-mode-selection" class="selection-card-containerPlayer">
+            <div id="threeplayers-player" class="selection-card" onclick="setV3PlayerTable()">
+                <img src="assets/images/singleplayericon.svg" alt="Logo singleplayer">
+                <h3>Juega contra:</h3>
+                <p>2 jugadores</p>
+            </div>
+            <div id="multi-player" class="selection-card" onclick="setV4PlayerTable()">
+                <img src="assets/images/multiplayericon.svg" alt="logo multiplayer">
+                <h3>Juega contra:</h3>
+                <p>3 jugadores</p>
+            </div>
+            <div id="multi-player" class="selection-card" onclick="setV3PlayerTable()">
+                <img src="assets/images/multiplayericon.svg" alt="logo multiplayer">
+                <h3>Juega contra:</h3>
+                <p>Otras personas en linea</p>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+function returnHome() {
+      let rightWindow = document.getElementById("right-window");
+    rightWindow.innerHTML = 
+    `
+            <div id="welcome-window" class="welcome-window">
+                <strong>BIENVENIDO A</strong>
+                <img src="assets/images/UNO-Logopng.png" alt="Logo UNO" class="start-img" onclick="gamingModeSelection()"></img>
+                <p class="press">Presiona para continuar</p>
+                <p class="slogan">¡El clásico que nunca pasa de moda!</p>
+                <p class="team">Grupo 2: Sebastián Pérez, Lisa García y Ana García</p>
+            </div>
+    `;
+}
+
+function viewRules() {
+      let rightWindow = document.getElementById("right-window");
+    rightWindow.innerHTML = 
+    `
+            <div id="welcome-window" class="welcome-window">
+                <strong>Reglas</strong>
+                <p class="press">Proximamente!</p>
+            </div>
+    `;
+}
+
+
 
 
