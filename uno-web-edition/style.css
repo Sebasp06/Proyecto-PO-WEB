@@ -9,27 +9,123 @@
     padding: 0;
 }
 
+.black{
+    background-color: var(--primary-color);
+}
+
+.blue{
+    background-color: #0A78B9;
+}
+
+.bottom-number{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
 body{
     min-height: 100vh;
     min-width: 100vh;
     background-color: var(--primary-color);
 }
 
-li{
+.card{
+    width: 120px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    font-family: "Barlow Condensed", sans-serif;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.card-deck:not(:first-child) {
+    margin-left: -55px; 
+}
+
+
+.card-deck:hover {
+    transform: translateY(-10px); 
+    z-index: 30;
+}
+
+.card-hidden{
+    background-color: var(--secondary-color);
+
+}
+
+.deck{
+    height: 200px;
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+}
+
+.edge{
+    font-size: 20px;
+    padding: 10px;
+}
+
+.green{
+    background-color: #84C03F;
+}
+
+.jump-img-top,.reverse-img-top{
+    margin: 10px 10px 10px 10px;
+    height: 16px;
+    width: 16px;
+    object-fit: contain;
+}
+
+.jump-img-bottom,.reverse-img-bottom{
+    margin: 10px 10px 10px 10px;
+    height: 16px;
+    width: 16px;
+    object-fit: contain;
+    align-self: flex-end;
+    justify-self: flex-end;
+}
+
+.jump-img,.reverse-img{
+    height: 64px;
+    width: 64px;
+    object-fit: contain;
+    flex-grow: 1;
+    align-self: center;
+    justify-self: center;
+}
+
+.main-window{
+    display: flex;
+}
+
+.mid-number{
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    font-size: 64px;
+    justify-content: center;
+}
+
+
+.option{
     padding: 10px;
     width: 100%;
     cursor: pointer;
     transition: all .5s ease;
 }
 
-li:hover{
+.option:hover{
     transition: all .5s ease;
     background-color: #2d2d2d;
     color: #fff;
 }
 
 
-li p{
+.option p{
     margin-left: 20px;
     transition: all .5s ease;
     font-family: "Poppins", sans-serif;
@@ -37,12 +133,17 @@ li p{
     color: #b0b0b0;
 }
 
-li p:hover{
+.option p:hover{
     transition: all .5s ease;
     color: #fff;
 }
-.main-window{
+
+main > section{
+    flex-grow: 1;
     display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .option-sidebar{
@@ -55,18 +156,16 @@ li p:hover{
 
 .press{
     font-family: "Poppins", sans-serif;
-    font-size: 25px;    
+    font-size: 36px;    
     color: #B0B0B0;
     position: relative;
     bottom: 10vh;
 }
 
-section{
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
+
+.red{
+    background-color: #ED1C24;
 }
 
 .side-img{
@@ -80,14 +179,6 @@ section{
     font-size: 40px;
     font-family: "Poppins", sans-serif;
     color: #fff;
-    position: relative;
-    bottom: 10vh;
-}
-
-.team{
-    font-family: "Poppins", sans-serif;
-    font-size: 25px;    
-    color: #B0B0B0;
     position: relative;
     bottom: 10vh;
 }
@@ -114,7 +205,7 @@ strong{
     color: #fff;
 }
 
-ul{
+.options{
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -127,8 +218,13 @@ ul{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-around;
     border-radius: 10px;
     background-color: var(--secondary-color);
+}
+
+.yellow{
+    background-color: #FFD237;
 }
 
 .selection-window{
@@ -201,6 +297,3 @@ ul{
     text-align: center;
     margin-top: 10px;
 }
-
-
-
