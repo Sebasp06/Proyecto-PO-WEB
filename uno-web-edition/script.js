@@ -1,6 +1,9 @@
 let deck = [];
 let discardPile = [];
 let actualColor = "";
+let numOfPlayers = 2;
+let currentIndex = 0;
+let direction = -1;
 tableDeckInnerHTML = "";
 const colors = ['red','green','blue','yellow'];
 const specialCards = ['jump','reverse','draw-2','draw-4','change-color'];
@@ -56,14 +59,6 @@ function playCard(cardID){
     let canBePlayed = false;
     let atributte = "";
     let value = 0;
-    console.log(discardPile);
-
-    console.log("cardInfo:", cardInfo);
-    console.log("discardPile top:", discardPile[pileDeck]);
-
-    
-    console.log(cardInfo);
-    console.log(cardInfo[1] + "==" + discardPile[pileDeck].value);
     
     if(cardInfo[0] === actualColor && cardInfo[1] === "draw2"){
         canBePlayed = true;
@@ -211,10 +206,9 @@ function setDeckCard(){
                             <p class="mid-number number">${cardNumber}</p>
                             <p class="bottom-number number edge">${cardNumber}</p>
                         </li>
-                        <li class="card card-hidden">
+                        <li class="card card-table-deck card-hidden" onclick="drawCard()">
                             <img src="assets/images/Uno-Logo-2020.svg">
                         </li>
-
         `;
         discardPile.push(card);
         deck.splice(index, 1);
@@ -222,7 +216,7 @@ function setDeckCard(){
 }
 
 function dealPlayerCards(){
-    let playerDeck = document.getElementById('player-deck');
+    let playerDeck = document.getElementById('player-deck-0');
     playerDeck.innerHTML = ``;
 
     for (let numberOfCards = 0; numberOfCards < 7; numberOfCards++) {
@@ -370,7 +364,7 @@ function setSinglePlayerTable(){
     `
     <section id="welcome-window" class="welcome-window">
         <div class= rival-three>
-            <ul class="rival-deck deck" id="rival-deck">
+            <ul class="rival-deck deck" id="player-deck-1">
             </ul>
         </div>
         <div class= "middle">
@@ -378,7 +372,7 @@ function setSinglePlayerTable(){
             </ul>
         </div>
         <div class= "player">
-            <ul class="player-deck deck" id="player-deck">       
+            <ul class="player-deck deck" id="player-deck-0">       
             </ul>
             <button class="uno-button" id="uno-button" onclick="unoScream()">
                 <img src="assets/images/Uno-Logo-2020.svg"></img>
@@ -390,7 +384,7 @@ function setSinglePlayerTable(){
     welcomeWindow.style.backgroundColor = "#032546"
     initializeDeck();
     dealPlayerCards();
-    dealRivalsCard("rival-deck");
+    dealRivalsCard("player-deck-1");
 }
 
 function setV3PlayerTable(){
@@ -668,6 +662,78 @@ function viewRules() {
     `;
 }
 
+function drawCard(){
 
+    const drawPlayer = document.getElementById("player-deck-0");
+    let drawCard = new Card("","","",null);
+    console.log(deck.length);
+    
+    if(deck.length !== 0){
+        drawCard = deck[0];
+        console.log(drawCard);
+        deck.splice(0,1);
+    }else{
+        return;
+    }
+    
+    
+    if(drawCard && drawCard.value !== undefined && drawCard.type === "number"){
+            const cardID = drawCard.id;
+            const cardColor = drawCard.color;
+            const cardNumber = drawCard.value;
+
+            drawPlayer.innerHTML +=`
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+                <p class="top-number number edge">${cardNumber}</p>
+                <p class="mid-number number">${cardNumber}</p>
+                <p class="bottom-number number edge">${cardNumber}</p>
+            </li>
+            `;
+    }else if(drawCard && drawCard.value !== undefined && drawCard.type === "reverse"){
+            const cardID = drawCard.id;
+            const cardColor = drawCard.color;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-top">
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img">
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-bottom">
+            </li>`;
+    }else if(drawCard && drawCard.type == 'jump' && drawCard.value !== undefined){
+            const cardID = drawCard.id;
+            const cardColor = drawCard.color;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img-top">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img-bottom">
+            </li>
+            `
+    }else if(drawCard && drawCard.type === 'draw' && drawCard.value !== undefined && drawCard.value === 4){
+            const cardID = drawCard.id;
+            const cardColor = drawCard.color;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+                <p class="top-number number edge">+4</p>
+                <img src="assets/images/draw4.svg" alt="carta salto" class="reverse-img">
+                <p class="bottom-number number edge">+4</p>
+            </li>`;
+    }else if(drawCard && drawCard.type === 'draw' && drawCard.value !== undefined && drawCard.value === 2){
+            const cardColor = drawCard.color;
+            const cardID = drawCard.id;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+                <p class="top-number number edge">+2</p>
+                <img src="assets/images/draw2.svg" alt="carta salto" class="reverse-img">
+                <p class="bottom-number number edge">+2</p>
+            </li>`;
+    }else if(drawCard && drawCard.type === 'change-color' && drawCard.value !== undefined){
+            const cardColor = drawCard.color;
+            const cardID = drawCard.id;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)"> 
+                <img src="assets/images/color.svg" alt="carta salto" class="reverse-img">
+            </li>`;
+    }
+}
 
 
