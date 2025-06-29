@@ -82,6 +82,7 @@ function playCard(cardID){
         value = null;
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
         cardID.classList.remove("card-player");
+        specialCardsEffect(new Card(cardID.id,cardInfo[0],atributte,value));
         tableDeck.innerHTML = `
         
             ${cardID.outerHTML}
@@ -110,6 +111,7 @@ function playCard(cardID){
         value = 4;
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
         cardID.classList.remove("card-player");
+        specialCardsEffect(new Card(cardID.id,cardInfo[0],atributte,value));
         tableDeck.innerHTML = `
         
             ${cardID.outerHTML}
@@ -147,7 +149,8 @@ function playCard(cardID){
         cardID.classList.add("card-animate-play");
         setTimeout(() =>{
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
-         cardID.classList.remove("card-animate-play", "card-player");//Aqui se quita la animacion que es lo adicional qie le habia puesto
+        specialCardsEffect(new Card(cardID.id,cardInfo[0],atributte,value));
+        cardID.classList.remove("card-animate-play", "card-player");//Aqui se quita la animacion que es lo adicional qie le habia puesto
         
          tableDeck.innerHTML = `
             ${cardID.outerHTML}
@@ -163,6 +166,24 @@ function playCard(cardID){
         },300);
     }
     
+}
+
+function specialCardsEffect(Card){
+    if(Card.id.includes("jump")){
+        console.log("Jump card played");
+    }
+    else if(Card.id.includes("reverse")){
+        console.log("Reverse card played");
+    }
+    else if(Card.id.includes("draw2")){
+        console.log("Draw card played");
+    }
+    else if(Card.type.includes("changecolor") && Card.value === null){
+        console.log("Change color card played");
+    }
+    else if(Card.type.includes("draw4") && Card.value === 4){
+        console.log("Draw 4 card played");
+    }      
 }
 
 function setDeckCard(){
