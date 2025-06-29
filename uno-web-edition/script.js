@@ -724,29 +724,9 @@ function setV3PlayerTable(){
     <section id="welcome-window" class="welcome-window">
 
     <div class="v3player-deck">
-        <div class= rival-one>
-            <ul class="rival-deck deck" id="rival-deck">
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
+        <div class= "rival-one">
+            <ul class="rival-deck deck" id="player-deck-1">
+                
             </ul>
         </div>
         <div class= "middle">
@@ -759,28 +739,8 @@ function setV3PlayerTable(){
         </button>
         </div>
         <div class= rival-two>
-        <ul class="rival-deck deck" id="rival-deck">
-            <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
+        <ul class="rival-deck deck" id="player-deck-2">
+        </ul>
         </div>
 
         <div class= "player">
@@ -797,6 +757,18 @@ function setV3PlayerTable(){
     welcomeWindow.style.width = "1200px";
     initializeDeck();
     dealPlayerCards();
+    player0.isHuman = true;
+    player0.id = "player-deck-0";
+    player0.name = "Jugador 1";
+    player1.id = "player-deck-1";
+    player1.name = "Rival 1";
+    player2.id = "player-deck-2";
+    player2.name = "Rival 2";
+    players.push(player0);
+    players.push(player1);
+    players.push(player2);
+    dealRivalsCard("player-deck-1");
+    dealRivalsCard("player-deck-2");
 }
 
 function setV4PlayerTable(){
@@ -808,82 +780,17 @@ function setV4PlayerTable(){
     <div class="v4player-deck">
 
         <div class= rival-one>
-            <ul class="rival-deck deck" id="rival-deck-1">
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
+            <ul class="rival-deck deck" id="player-deck-1">
             </ul>
         </div>
 
         <div class= rival-three>
-            <ul class="rival-deck deck" id="rival-deck-3">
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class=assets/images/block.svg" alt="carta salto" class="jump-img-top">
-                <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
-                <img src=""card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
+            <ul class="rival-deck deck" id="player-deck-2">
             </ul>
         </div>
 
         <div class= rival-two>
-            <ul class="rival-deck deck" id="rival-deck-2">
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
-                <li class="card card-deck card-hidden">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-                </li>
+            <ul class="rival-deck deck" id="player-deck-3">
             </ul>
         </div>
 
@@ -911,9 +818,24 @@ function setV4PlayerTable(){
     //welcomeWindow.style.width = "1200px";
     initializeDeck();
     dealPlayerCards();
-    dealRivalsCard("rival-deck-1");
-    dealRivalsCard("rival-deck-2");
-    dealRivalsCard("rival-deck-3");
+    player0.isHuman = true;
+    player0.id = "player-deck-0";
+    player0.name = "Jugador 1";
+    player1.id = "player-deck-1";
+    player1.name = "Rival 1";
+    player2.id = "player-deck-2";
+    player2.name = "Rival 2";
+    player3.id = "player-deck-3";
+    player3.name = "Rival 3";
+    players.push(player0);
+    players.push(player1);
+    players.push(player2);
+    players.push(player3);
+    dealRivalsCard("player-deck-1");
+    dealRivalsCard("player-deck-2");
+    dealRivalsCard("player-deck-3");
+    console.log(player0);
+    
 }
 
 function gamingModeSelection() {
