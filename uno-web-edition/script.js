@@ -157,10 +157,6 @@ function playCard(cardID){
         console.log(discardPile);
     }
     
-    
-    
-    
-
 }
 
 function setDeckCard(){
@@ -348,13 +344,14 @@ function dealRivalsCard(rivalID){
 }
 
 function unoScream(){
-    const handCards = document.getElementById("player-deck");
+    const handCards = document.getElementById("player-deck-0");
     const amountOfCards = handCards.childElementCount;
     if(amountOfCards === 1){
         alert("¡UNO!"); 
     }
     else {
-        alert("¡No has gritado UNO!"); 
+        drawCard();
+        drawCard(); 
     }
 }
 
@@ -455,9 +452,8 @@ function setV3PlayerTable(){
 
         <div class= "player">
             
-        <ul class="player-deck deck" id="player-deck">
-                    
-        </ul>
+            <ul class="player-deck deck" id="player-deck-0">       
+            </ul>
         </div>
         </div>
     </section>
@@ -567,8 +563,8 @@ function setV4PlayerTable(){
         </div>
 
         <div class= "player">
-        <ul class="player-deck deck" id="player-deck">       
-        </ul>
+            <ul class="player-deck deck" id="player-deck-0">       
+            </ul>
         </div>
 
     </div>
