@@ -144,20 +144,23 @@ function playCard(cardID){
     }
 
     if(canBePlayed){
+        cardID.classList.add("card-animate-play");
+        setTimeout(() =>{
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
-        cardID.classList.remove("card-player");
-        tableDeck.innerHTML = `
+         cardID.classList.remove("card-animate-play", "card-player");//Aqui se quita la animacion que es lo adicional qie le habia puesto
         
+         tableDeck.innerHTML = `
             ${cardID.outerHTML}
             <li class="card card-hidden cards-left">
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>
-        
         `;
+        const playedCard = tableDeck.firstElementChild;
+        playedCard.classList.add("card-animate-arrive");
         actualColor = cardInfo[0];
         console.log(actualColor);
         cardID.remove();
-        console.log(discardPile);
+        },300);
     }
     
 }
