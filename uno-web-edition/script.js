@@ -50,7 +50,27 @@ function shuffleCards(){
     }
 }
 
-function canPlayCard(cardID){}
+function canPlayCard() {
+    const topCard = discardPile[discardPile.length - 1];
+    const playerCards = player0.cards;
+    console.log("Top card:", topCard);
+    for (let i = 0; i < playerCards.length; i++) {
+        const card = playerCards[i];
+        if (
+            (card.type === "number" && card.type === topCard.type && card.value === topCard.value) ||
+            card.color === topCard.color ||
+            (card.type === topCard.type && card.value === topCard.value)
+        ) {
+            console.log("TRUE");
+            return true;
+        }
+    }
+
+    console.log("false");
+    return false;
+}
+
+
 
 function playBot(){
     let cardCanBePlayed = false;
@@ -314,7 +334,6 @@ function playRivalCard(cardID){
 function playCard(cardID){
     const tableDeck = document.getElementById("table-deck");
     const cardInfo = cardID.id.split("-");
-    console.log("currentIndex = "+currentIndex);
     
     if(currentIndex !== 0){
         alert("No es tu turno");
@@ -340,6 +359,7 @@ function playCard(cardID){
         value = null;
     }else if(cardInfo[0] === "black" && cardInfo[1] === "changecolor"){
         canBePlayed = true;
+        canDrawCard = true;
         atributte = "changecolor";
         value = null;
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
@@ -365,10 +385,24 @@ function playCard(cardID){
             </svg>
         </li>`;
         tableDeck.classList.toggle("circle-container");
+        if (direction === -1 && currentIndex === 0) {
+            currentIndex = players.length - 1;
+        } else if (direction === -1) {
+            currentIndex -= 1;
+        } else if (direction === 1) {
+            currentIndex = (currentIndex + 1) % players.length; 
+        }
+
+    
+        if ((direction === 1 && currentIndex === 1) ||
+            (direction === -1 && currentIndex === players.length - 1)) {
+            playBots();
+        }
         return true;
 
     }else if(cardInfo[0] === "black" && cardInfo[1] === "draw4"){
         canBePlayed = true;
+        canDrawCard = true;
         atributte = "draw4";
         value = 4;
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
@@ -394,6 +428,19 @@ function playCard(cardID){
             </svg>
         </li>`;
         tableDeck.classList.toggle("circle-container");
+        if (direction === -1 && currentIndex === 0) {
+            currentIndex = players.length - 1;
+        } else if (direction === -1) {
+            currentIndex -= 1;
+        } else if (direction === 1) {
+            currentIndex = (currentIndex + 1) % players.length; 
+        }
+
+    
+        if ((direction === 1 && currentIndex === 1) ||
+            (direction === -1 && currentIndex === players.length - 1)) {
+            playBots();
+        }
         return true;
     }else if(cardInfo[0] === actualColor){
         canBePlayed = true;
@@ -406,7 +453,7 @@ function playCard(cardID){
     }
 
     if (canBePlayed) {
-
+        canDrawCard = true;
     player0.cards = player0.cards.filter(card => card.id !== cardID.id);
 
     
@@ -427,10 +474,7 @@ function playCard(cardID){
 
     const playedCard = tableDeck.firstElementChild;
     playedCard.classList.add("card-animate-arrive");
-
     actualColor = cardInfo[0];
-    console.log(actualColor);
-
     cardID.remove();
 
     if (direction === -1 && currentIndex === 0) {
@@ -438,7 +482,7 @@ function playCard(cardID){
     } else if (direction === -1) {
         currentIndex -= 1;
     } else if (direction === 1) {
-        currentIndex = (currentIndex + 1) % players.length;
+        currentIndex = (currentIndex + 1) % players.length; 
     }
 
     
@@ -991,14 +1035,19 @@ function drawCard(){
                 <img src="assets/images/color.svg" alt="carta salto" class="reverse-img">
             </li>`;
     }
-    canDrawCard = true;
+    canDrawCard = false;
     if(!canPlayCard() && direction === 1){
         currentIndex = (currentIndex + 1) % players.length;
+        playBots();
     }else if(!canPlayCard() && direction === -1){
         if(currentIndex === 0){
+            canDrawCard = true;
             currentIndex = players.length - 1;
+            playBots();
         }else{
+            canDrawCard = true;
             currentIndex -= 1;
+            playBots();
         }
     }
 }
