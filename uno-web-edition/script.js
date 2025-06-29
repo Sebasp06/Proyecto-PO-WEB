@@ -4,11 +4,24 @@ let actualColor = "";
 let numOfPlayers = 2;
 let currentIndex = 0;
 let direction = -1;
+let players = [];
 tableDeckInnerHTML = "";
 const colors = ['red','green','blue','yellow'];
 const specialCards = ['jump','reverse','draw-2','draw-4','change-color'];
 
+class Player{
+    constructor(){
+        this.id = "";
+        this.name = "";
+        this.cards = [];
+        this.points = 0;
+        this.saidUNO = false;
+        this.isHuman = false;
+    }
+}
+
 class Card{
+    
     constructor (id,color,type,value){
         this.id = id;
         this.color = color;
@@ -16,6 +29,11 @@ class Card{
         this.value = value
     }
 }
+
+let player0 = new Player();
+let player1 = new Player();
+let player2 = new Player();
+let player3 = new Player();
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -27,7 +45,34 @@ function shuffleCards(){
         [deck[i],deck[j]] = [deck[j],deck[i]];
     }
 }
+function playBot(){
+    let cardCanBePlayed = false;
+    console.log(`currentIndex = ${currentIndex}`);
+    
+    for(let i = 0; i < players[currentIndex].cards.length; i++){
+        if(playRivalCard(players[currentIndex].cards[i])){
+            cardCanBePlayed = true;
+            break;
+        }
+    }
+    if(!cardCanBePlayed){
+        drawRivalCard(`player-deck-${currentIndex}`);
+        playRivalCard(players[currentIndex].cards[players[currentIndex].cards.length - 1]);
+    }
 
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function playBots() {
+    while (currentIndex !== 0) {
+        await sleep(3000);
+        playBot();
+        
+    }
+}
 function initializeDeck(){
     for(let color = 0; color < 4; color ++){
         deck.push(new Card(colors[color] + '-0-1',colors[color],'number',0));
@@ -52,9 +97,167 @@ function setColor(color){
     tableDeck.classList.toggle("circle-container");
 }
 
+function playRivalCard(cardID){
+    cardIDHTML = document.getElementById(cardID.id);
+    
+    const tableDeck = document.getElementById("table-deck");
+    const cardInfo = cardID.id.split("-");
+    console.log(cardInfo);
+    
+    
+    const pileDeck = discardPile.length - 1;
+    let canBePlayed = false;
+    let atributte = "";
+    let value = 0;
+    
+    if(cardInfo[0] === actualColor && cardInfo[1] === "draw2"){
+        canBePlayed = true;
+        atributte = "draw2";
+        value = 2;
+        const cardColor = cardID.color;
+        const cardid = cardID.id;    
+        cardIDHTML.innerHTML= `
+            <li class="card card-deck ${cardColor} ${cardid}" id="${cardid}">
+                <p class="top-number number edge">+2</p>
+                <img src="assets/images/draw2.svg" alt="carta salto" class="reverse-img">
+                <p class="bottom-number number edge">+2</p>
+            </li>`;
+
+    }else if(cardInfo[0] === actualColor && cardInfo[1] === "reverse"){
+        canBePlayed = true;
+        atributte = "reverse";
+        value = null;
+        const cardColor = cardID.color;
+        const cardid = cardID.id;
+        cardIDHTML.innerHTML = `
+            <li class="card card-deck ${cardColor} ${cardid}" id="${cardid}">
+                <img src="assets/images/block.svg" alt="carta reversa" class="jump-img-top">
+                <img src="assets/images/block.svg" alt="carta reversa" class="jump-img">
+                <img src="assets/images/block.svg" alt="carta reversa" class="jump-img-bottom">
+            </li>
+        `;
+    }else if(cardInfo[0] === actualColor && cardInfo[1] === "jump"){
+        canBePlayed = true;
+        atributte = "jump";
+        value = null;
+        const cardColor = cardID.color;
+        const cardid = cardID.id;
+        cardIDHTML.innerHTML = `
+            <li class="card card-deck ${cardColor} ${cardid}" id="${cardid}">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img-top">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img-bottom">
+            </li>
+        
+        
+        `;
+        
+    }else if(cardInfo[0] === "black" && cardInfo[1] === "changecolor"){
+        canBePlayed = true;
+        atributte = "changecolor";
+        value = null;
+        discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
+        tableDeck.innerHTML = `
+        
+            ${cardID.outerHTML}
+            <li class="card card-hidden cards-left">
+                <img src="assets/images/Uno-Logo-2020.svg">
+            </li>
+        
+        `;
+        cardIDHTML.remove();
+        return true;
+
+    }else if(cardInfo[0] === "black" && cardInfo[1] === "draw4"){
+        canBePlayed = true;
+        atributte = "draw4";
+        value = 4;
+        discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
+        tableDeck.innerHTML = `
+        
+            ${cardIDHTML.innerHTML}
+            <li class="card card-hidden cards-left">
+                <img src="assets/images/Uno-Logo-2020.svg">
+            </li>
+        
+        `;
+        
+        cardIDHTML.remove();
+        tableDeckInnerHTML = tableDeck.innerHTML;
+        
+        return true;
+    }else if(cardInfo[0] === actualColor){
+        canBePlayed = true;
+        atributte = "number";
+        value = parseInt(cardInfo[1]);
+        const cardColor = cardID.color;
+        const cardid = cardID.id;
+        const cardNumber = cardID.value;
+    
+            cardIDHTML.innerHTML = `
+            <li class="card card-deck card-player ${cardColor} ${cardid}" id="${cardid}">
+                <p class="top-number number edge">${cardNumber}</p>
+                <p class="mid-number number">${cardNumber}</p>
+                <p class="bottom-number number edge">${cardNumber}</p>
+            </li>`;
+    }else if((cardInfo[1] !== "changecolor" && cardInfo[1] !== "jump" && cardInfo[1] !== "reverse" && cardInfo[1] !== "draw2" && cardInfo[1] !== "draw4") && cardInfo[1] == discardPile[pileDeck].value){
+        canBePlayed = true;
+        atributte = "number";
+        value = parseInt(cardInfo[1]);
+        const cardColor = cardID.color;
+        const cardid = cardID.id;
+        const cardNumber = cardID.value;
+            cardIDHTML.innerHTML = `
+            <li class="card card-deck card-player ${cardColor} ${cardid}" id="${cardid}">
+                <p class="top-number number edge">${cardNumber}</p>
+                <p class="mid-number number">${cardNumber}</p>
+                <p class="bottom-number number edge">${cardNumber}</p>
+            </li>`;
+    }
+
+    if(canBePlayed){
+        players[currentIndex].cards = players[currentIndex].cards.filter(card => card.id !== cardID.id);
+
+        discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
+        tableDeck.innerHTML = `
+        
+            ${cardIDHTML.innerHTML}
+            <li class="card card-hidden cards-left">
+                <img src="assets/images/Uno-Logo-2020.svg">
+            </li>
+        
+        `;
+        console.log(tableDeck.innerHTML);
+        
+        if(direction === -1 && currentIndex === 0){
+            currentIndex = players.length - 1
+        }else if(direction === -1){
+            currentIndex -= 1
+        }else if(direction === 1){
+            currentIndex = (currentIndex + 1) % players.length;
+        }
+        
+        
+        
+        actualColor = cardInfo[0];
+        console.log(actualColor);
+        cardIDHTML.remove();
+        console.log(discardPile);
+        return true;
+        
+    }
+    return false;
+}
+
 function playCard(cardID){
     const tableDeck = document.getElementById("table-deck");
     const cardInfo = cardID.id.split("-");
+    console.log("currentIndex = "+currentIndex);
+    
+    if(currentIndex !== 0){
+        alert("No es tu turno");
+        return;
+    }
     const pileDeck = discardPile.length - 1;
     let canBePlayed = false;
     let atributte = "";
@@ -99,7 +302,7 @@ function playCard(cardID){
             </svg>
         </li>`;
         tableDeck.classList.toggle("circle-container");
-        return;
+        return true;
 
     }else if(cardInfo[0] === "black" && cardInfo[1] === "draw4"){
         canBePlayed = true;
@@ -127,7 +330,7 @@ function playCard(cardID){
             </svg>
         </li>`;
         tableDeck.classList.toggle("circle-container");
-        return;
+        return true;
     }else if(cardInfo[0] === actualColor){
         canBePlayed = true;
         atributte = "number";
@@ -136,11 +339,11 @@ function playCard(cardID){
         canBePlayed = true;
         atributte = "number";
         value = parseInt(cardInfo[1]);
-        console.log(value);
-        console.log(`value = ${value}`);
     }
 
     if(canBePlayed){
+        player0.cards = player0.cards.filter(card => card.id !== cardID.id)
+        
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
         cardID.classList.remove("card-player");
         tableDeck.innerHTML = `
@@ -151,11 +354,29 @@ function playCard(cardID){
             </li>
         
         `;
+        if(direction === -1 && currentIndex === 0){
+            currentIndex = players.length - 1
+        }else if(direction === -1){
+            currentIndex -= 1
+        }else if(direction === 1){
+            currentIndex = (currentIndex + 1) % players.length;
+        }
+        
+        
+
         actualColor = cardInfo[0];
         console.log(actualColor);
         cardID.remove();
+        if(direction === 1 &&currentIndex === 1){
+            playBots();
+        }else if(direction === -1 && currentIndex === players.length - 1){
+            playBots();
+        }
         console.log(discardPile);
+        return true;
+        
     }
+    return false;
     
 }
 
@@ -230,7 +451,7 @@ function dealPlayerCards(){
                 <p class="mid-number number">${cardNumber}</p>
                 <p class="bottom-number number edge">${cardNumber}</p>
             </li>`;
-    
+            player0.cards.push(card);
             
         } else if(card && card.type == 'jump' && card.value !== undefined){
             const cardColor = card.color;
@@ -241,7 +462,7 @@ function dealPlayerCards(){
                 <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
                 <img src="assets/images/block.svg" alt="carta salto" class="jump-img-bottom">
             </li>`;
-            
+            player0.cards.push(card);
 
         }else if(card && card.type === 'reverse' && card.value !== undefined){
             const cardColor = card.color;
@@ -252,6 +473,7 @@ function dealPlayerCards(){
                 <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img">
                 <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-bottom">
             </li>`;
+            player0.cards.push(card);
         }else if(card && card.type === 'draw' && card.value !== undefined && card.value === 4){
             const cardColor = card.color;
             const cardID = card.id;
@@ -261,6 +483,7 @@ function dealPlayerCards(){
                 <img src="assets/images/draw4.svg" alt="carta salto" class="reverse-img">
                 <p class="bottom-number number edge">+4</p>
             </li>`;
+            player0.cards.push(card);
         }else if(card && card.type === 'draw' && card.value !== undefined && card.value === 2){
             const cardColor = card.color;
             const cardID = card.id;
@@ -270,6 +493,7 @@ function dealPlayerCards(){
                 <img src="assets/images/draw2.svg" alt="carta salto" class="reverse-img">
                 <p class="bottom-number number edge">+2</p>
             </li>`;
+            player0.cards.push(card);
         }else if(card && card.type === 'change-color' && card.value !== undefined){
             const cardColor = card.color;
             const cardID = card.id;
@@ -277,6 +501,7 @@ function dealPlayerCards(){
             <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)"> 
                 <img src="assets/images/color.svg" alt="carta salto" class="reverse-img">
             </li>`;
+            player0.cards.push(card);
         }
         deck.splice(index, 1);
     }
@@ -285,6 +510,7 @@ function dealPlayerCards(){
 
 function dealRivalsCard(rivalID){
     const rivalDeck = document.getElementById(rivalID);
+    let playerNum = parseInt(rivalID.split("-")[2]);
     rivalDeck.innerHTML = ``;
     for (let numberOfCards = 0; numberOfCards < 7; numberOfCards++) {
         let index = getRandomInt(deck.length); 
@@ -299,7 +525,7 @@ function dealRivalsCard(rivalID){
             <li class="card card-deck card-hidden ${cardID}" id="${cardID}">
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>`;
-    
+            players[playerNum].cards.push(card);
             
         } else if(card && card.type == 'jump' && card.value !== undefined){
             const cardColor = card.color;
@@ -308,7 +534,7 @@ function dealRivalsCard(rivalID){
             <li class="card card-deck card-hidden ${cardID}" id="${cardID}">
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>`;
-            
+            players[playerNum].cards.push(card);
 
         }else if(card && card.type === 'reverse' && card.value !== undefined){
             const cardColor = card.color;
@@ -317,6 +543,7 @@ function dealRivalsCard(rivalID){
             <li class="card card-deck card-hidden ${cardID}" id="${cardID}">
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>`;
+            players[playerNum].cards.push(card);
         }else if(card && card.type === 'draw' && card.value !== undefined && card.value === 4){
             const cardColor = card.color;
             const cardID = card.id;
@@ -324,6 +551,7 @@ function dealRivalsCard(rivalID){
             <li class="card card-deck card-hidden ${cardID}" id="${cardID}">
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>`;
+            players[playerNum].cards.push(card);
         }else if(card && card.type === 'draw' && card.value !== undefined && card.value === 2){
             const cardColor = card.color;
             const cardID = card.id;
@@ -331,6 +559,7 @@ function dealRivalsCard(rivalID){
             <li class="card card-deck card-hidden ${cardID}" id="${cardID}">
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>`;
+            players[playerNum].cards.push(card);
         }else if(card && card.type === 'change-color' && card.value !== undefined){
             const cardColor = card.color;
             const cardID = card.id;
@@ -338,6 +567,7 @@ function dealRivalsCard(rivalID){
             <li class="card card-deck  card-hidden ${cardID}" id="${cardID}"> 
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>`;
+            players[playerNum].cards.push(card);
         }
         deck.splice(index, 1);
     }
@@ -381,7 +611,17 @@ function setSinglePlayerTable(){
     welcomeWindow.style.backgroundColor = "#032546"
     initializeDeck();
     dealPlayerCards();
+    player0.isHuman = true;
+    player0.id = "player-deck-0";
+    player0.name = "Jugador 1";
+    player1.id = "player-deck-1";
+    player1.name = "Rival 1";
+    players.push(player0);
+    players.push(player1);
     dealRivalsCard("player-deck-1");
+    console.log(player0);
+    
+    
 }
 
 function setV3PlayerTable(){
@@ -505,7 +745,9 @@ function setV4PlayerTable(){
                 <li class="card card-deck card-hidden">
                 <img src="assets/images/Uno-Logo-2020.svg"></img>
                 </li>
-                <li class="card card-deck card-hidden">
+                <li class=assets/images/block.svg" alt="carta salto" class="jump-img-top">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
+                <img src=""card card-deck card-hidden">
                 <img src="assets/images/Uno-Logo-2020.svg"></img>
                 </li>
                 <li class="card card-deck card-hidden">
@@ -666,6 +908,7 @@ function drawCard(){
     
     if(deck.length !== 0){
         drawCard = deck[0];
+        player0.cards.push(drawCard);
         console.log(drawCard);
         deck.splice(0,1);
     }else{
@@ -732,4 +975,77 @@ function drawCard(){
     }
 }
 
+function drawRivalCard(rivalID){
+    const drawPlayer = document.getElementById(rivalID);
+    let drawCard = new Card("","","",null);
+    console.log(deck.length);
+    
+    if(deck.length !== 0){
+        drawCard = deck[0];
+        players[currentIndex].cards.push(drawCard);
+        console.log(drawCard);
+        deck.splice(0,1);
+    }else{
+        return;
+    }
+    
+    if(drawCard && drawCard.value !== undefined && drawCard.type === "number"){
+            const cardID = drawCard.id;
+            const cardColor = drawCard.color;
+            const cardNumber = drawCard.value;
 
+            drawPlayer.innerHTML +=`
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" >
+                <p class="top-number number edge">${cardNumber}</p>
+                <p class="mid-number number">${cardNumber}</p>
+                <p class="bottom-number number edge">${cardNumber}</p>
+            </li>
+            `;
+    }else if(drawCard && drawCard.value !== undefined && drawCard.type === "reverse"){
+            const cardID = drawCard.id;
+            const cardColor = drawCard.color;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" >
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-top">
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img">
+                <img src="assets/images/reverse.png" alt="carta salto" class="reverse-img-bottom">
+            </li>`;
+    }else if(drawCard && drawCard.type == 'jump' && drawCard.value !== undefined){
+            const cardID = drawCard.id;
+            const cardColor = drawCard.color;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" >
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img-top">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img">
+                <img src="assets/images/block.svg" alt="carta salto" class="jump-img-bottom">
+            </li>
+            `
+    }else if(drawCard && drawCard.type === 'draw' && drawCard.value !== undefined && drawCard.value === 4){
+            const cardID = drawCard.id;
+            const cardColor = drawCard.color;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" >
+                <p class="top-number number edge">+4</p>
+                <img src="assets/images/draw4.svg" alt="carta salto" class="reverse-img">
+                <p class="bottom-number number edge">+4</p>
+            </li>`;
+    }else if(drawCard && drawCard.type === 'draw' && drawCard.value !== undefined && drawCard.value === 2){
+            const cardColor = drawCard.color;
+            const cardID = drawCard.id;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" >
+                <p class="top-number number edge">+2</p>
+                <img src="assets/images/draw2.svg" alt="carta salto" class="reverse-img">
+                <p class="bottom-number number edge">+2</p>
+            </li>`;
+    }else if(drawCard && drawCard.type === 'change-color' && drawCard.value !== undefined){
+            const cardColor = drawCard.color;
+            const cardID = drawCard.id;
+            drawPlayer.innerHTML += `
+            <li class="card card-deck card-player ${cardColor} ${cardID}" id="${cardID}" > 
+                <img src="assets/images/color.svg" alt="carta salto" class="reverse-img">
+            </li>`;
+    }
+    
+    
+}
