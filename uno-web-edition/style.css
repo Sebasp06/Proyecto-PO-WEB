@@ -18,9 +18,14 @@
 }
 
 .bottom-number{
+    cursor: pointer;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
+}
+
+.top-number{
+    cursor: pointer;
 }
 
 body{
@@ -42,12 +47,16 @@ body{
     transition: transform 0.2s ease;
 }
 
+.cards-left{
+    cursor: pointer;
+}
+
 .card-deck:not(:first-child) {
     margin-left: -55px; 
 }
 
 
-.card-deck:hover {
+.card-player:hover {
     transform: translateY(-10px); 
     z-index: 30;
 }
@@ -58,10 +67,25 @@ body{
     place-items: center;
 }
 
+.circle-container{
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .card-hidden img{
     width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.circle-img{
+    align-self: center;
+    justify-content: center;
+    height: 200px;
+    width: 200px;
 }
 
 .deck{
@@ -110,6 +134,7 @@ body{
 }
 
 .mid-number{
+    cursor: pointer;
     flex-grow: 1;
     display: flex;
     align-items: center;
@@ -318,7 +343,10 @@ strong{
     ;
 }
 
+/*Aqui puse el height y el width para probar que tal se veia*/
 .v4player-deck {
+    height: 100%;  
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto 1fr auto;
