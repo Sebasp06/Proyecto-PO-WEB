@@ -324,11 +324,38 @@ function playRivalCard(cardID){
         
         console.log(actualColor);
         cardIDHTML.remove();
+        checkCardsRivals(currentIndex);
         console.log(discardPile);
         return true;
         
     }
     return false;
+}
+
+function specialCardsEffectRivals(Card){
+    if(Card.id.includes("jump")){
+        console.log("Jump card played");
+    }
+    else if(Card.id.includes("reverse")){
+        console.log("Reverse card played");
+    }
+    else if(Card.id.includes("draw2")){
+        console.log("Draw card played");
+        moreCardPlayers(2);
+    }
+    else if(Card.type.includes("changecolor") && Card.value === null){
+        console.log("Change color card played");
+    }
+    else if(Card.type.includes("draw4") && Card.value === 4){
+        console.log("Draw 4 card played");
+        moreCardPlayers(4);
+    }      
+}
+
+function moreCardPlayers(index){
+    for (let i = 0; i < index; i++){
+        drawCard();
+    }
 }
 
 function playCard(cardID){
@@ -374,6 +401,7 @@ function playCard(cardID){
         
         `;
         cardID.remove();
+        checkCardsPlayer();
         tableDeckInnerHTML = tableDeck.innerHTML;
         tableDeck.innerHTML = `
         <li>
@@ -417,6 +445,7 @@ function playCard(cardID){
         
         `;
         cardID.remove();
+        checkCardsPlayer();
         tableDeckInnerHTML = tableDeck.innerHTML;
         tableDeck.innerHTML = `
         <li>
@@ -476,6 +505,7 @@ function playCard(cardID){
     playedCard.classList.add("card-animate-arrive");
     actualColor = cardInfo[0];
     cardID.remove();
+    checkCardsPlayer();
 
     if (direction === -1 && currentIndex === 0) {
         currentIndex = players.length - 1;
@@ -507,14 +537,20 @@ function specialCardsEffect(Card){
         console.log("Reverse card played");
     }
     else if(Card.id.includes("draw2")){
-        console.log("Draw card played");
+        moreCardsRivals(2);
     }
     else if(Card.type.includes("changecolor") && Card.value === null){
         console.log("Change color card played");
     }
     else if(Card.type.includes("draw4") && Card.value === 4){
-        console.log("Draw 4 card played");
+        moreCardsRivals(4);
     }      
+}
+
+function moreCardsRivals(index){
+    for (let i = 0; i < index; i++){
+        drawRivalCard(`player-deck-${currentIndex+1}`);
+    }
 }
 
 function setDeckCard(){
@@ -948,7 +984,6 @@ function returnHome() {
 }
 
 function viewRules() {
-    deck = [];
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
     `
@@ -1129,3 +1164,44 @@ function cambiarPlayPause(){
     }
 }
 
+function viewVictory(index) {
+    let rightWindow = document.getElementById("right-window");
+
+    if (index === 0) {
+        rightWindow.innerHTML = 
+    `
+            <div id="welcome-window" class="welcome-window">
+                <strong>El ganador es:</strong>
+                <p class="press">Felicidades! Haz ganado</p>
+            </div>
+    `;
+    }
+    else{
+        rightWindow.innerHTML = 
+    `
+            <div id="welcome-window" class="welcome-window">
+                <strong>El ganador es:</strong>
+                <p class="press">El ganador es ${index}</p>
+            </div>
+    `;
+    }
+    
+}
+
+function checkCardsPlayer(){
+    const playerDeck = document.getElementById("player-deck-0");
+    const playerCards = playerDeck.childElementCount;
+    if(playerCards === 0){
+        viewVictory(0);
+        return true;
+    }
+}
+
+function checkCardsRivals(index){
+    const playerDeck = document.getElementById("player-deck-&{index}");
+    const playerCards = playerDeck.childElementCount;
+    if(playerCards === 0){
+        viewVictory(index);
+        return true;
+    }
+}
