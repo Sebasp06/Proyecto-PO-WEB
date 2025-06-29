@@ -26,8 +26,6 @@ function shuffleCards(){
 }
 
 function initializeDeck(){
-    
-
     for(let color = 0; color < 4; color ++){
         deck.push(new Card(colors[color] + '-0-1',colors[color],'number',0));
         deck.push(new Card(colors[color] + '-jump-1',colors[color],'jump',null));
@@ -41,11 +39,8 @@ function initializeDeck(){
         }
     }
     shuffleCards();
-    console.log(deck);
-    
+    console.log(deck);   
 }
-
-
 
 function setColor(color){
     const tableDeck = document.getElementById("table-deck");
@@ -358,6 +353,17 @@ function dealRivalsCard(rivalID){
     }
 }
 
+function unoScream(){
+    const handCards = document.getElementById("player-deck");
+    const amountOfCards = handCards.childElementCount;
+    if(amountOfCards === 1){
+        alert("¡UNO!"); 
+    }
+    else {
+        alert("¡No has gritado UNO!"); 
+    }
+}
+
 function setSinglePlayerTable(){
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
@@ -374,6 +380,9 @@ function setSinglePlayerTable(){
         <div class= "player">
             <ul class="player-deck deck" id="player-deck">       
             </ul>
+            <button class="uno-button" id="uno-button" onclick="unoScream()">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+            </button>
         </div>
     </section>
     `;
@@ -421,6 +430,9 @@ function setV3PlayerTable(){
                 <li class="card card-hidden"></li>
                 <li class="card card-hidden"></li>
         </ul>
+        <button class="uno-button" id="uno-button" onclick="unoScream()">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+        </button>
         </div>
         <div class= rival-two>
         <ul class="rival-deck deck" id="rival-deck">
@@ -555,6 +567,9 @@ function setV4PlayerTable(){
                 <li class="card card-hidden"></li>
                 <li class="card card-hidden"></li>
             </ul>
+            <button class="uno-button" id="uno-button" onclick="unoScream()">
+                <img src="assets/images/Uno-Logo-2020.svg"></img>
+        </button>
         </div>
 
         <div class= "player">
