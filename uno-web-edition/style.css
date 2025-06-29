@@ -142,7 +142,6 @@ body{
     justify-content: center;
 }
 
-
 .option{
     padding: 10px;
     width: 100%;
@@ -155,7 +154,6 @@ body{
     background-color: #2d2d2d;
     color: #fff;
 }
-
 
 .option p{
     margin-left: 20px;
@@ -193,8 +191,6 @@ main > section{
     position: relative;
     bottom: 10vh;
 }
-
-
 
 .red{
     background-color: #ED1C24;
@@ -297,7 +293,7 @@ strong{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     cursor: pointer;
 }
 
@@ -334,7 +330,7 @@ strong{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 2fr 1fr;
-    gap: 10px;
+    
     place-items: center;
     margin-top: 100px;
     grid-template-areas: 
@@ -345,8 +341,6 @@ strong{
 
 /*Aqui puse el height y el width para probar que tal se veia*/
 .v4player-deck {
-    height: 100%;  
-    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto 1fr auto;
@@ -355,7 +349,7 @@ strong{
         "rival-three rival-three rival-three"
         "rival-one middle rival-two"
         "player player player";
-    gap: 45px;
+    gap: 20px;
 }
 
 .rival-one {
@@ -387,13 +381,40 @@ strong{
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
 .player {
     grid-area: player;
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-center;
+    gap: 10px;
+}
+.uno-button {
+    height: 100px;
+    width: 100px;
+    font-size: 24px;
+    font-family: "Poppins", sans-serif;
+    color: #fff;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 25%;
+    cursor: pointer;
+
+}
+
+.uno-button img {
+  width: 100%; 
+  height: auto; 
+  display: block; 
+}
+
+.uno-button:hover {
+    background-color: #2d2d2d;
+    box-shadow: 2px 2px 2px 2px var(--primary-color);
+    transition: all .2s ease;
 }
 
 .selection-windowPlayer{
