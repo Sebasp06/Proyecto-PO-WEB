@@ -8,6 +8,9 @@ let players = [];
 tableDeckInnerHTML = "";
 const colors = ['red','green','blue','yellow'];
 const specialCards = ['jump','reverse','draw-2','draw-4','change-color'];
+const musica=document.getElementById('musica');
+const botonMusica= document.getElementById('botonMusica')
+
 
 class Player{
     constructor(){
@@ -282,6 +285,7 @@ function playCard(cardID){
         value = null;
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
         cardID.classList.remove("card-player");
+        specialCardsEffect(new Card(cardID.id,cardInfo[0],atributte,value));
         tableDeck.innerHTML = `
         
             ${cardID.outerHTML}
@@ -310,6 +314,7 @@ function playCard(cardID){
         value = 4;
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
         cardID.classList.remove("card-player");
+        specialCardsEffect(new Card(cardID.id,cardInfo[0],atributte,value));
         tableDeck.innerHTML = `
         
             ${cardID.outerHTML}
@@ -342,18 +347,22 @@ function playCard(cardID){
     }
 
     if(canBePlayed){
+
         player0.cards = player0.cards.filter(card => card.id !== cardID.id)
         
+        cardID.classList.add("card-animate-play");
+        setTimeout(() =>{
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
-        cardID.classList.remove("card-player");
-        tableDeck.innerHTML = `
+        specialCardsEffect(new Card(cardID.id,cardInfo[0],atributte,value));
+        cardID.classList.remove("card-animate-play", "card-player");//Aqui se quita la animacion que es lo adicional qie le habia puesto
         
+         tableDeck.innerHTML = `
             ${cardID.outerHTML}
             <li class="card card-hidden cards-left">
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>
-        
         `;
+
         if(direction === -1 && currentIndex === 0){
             currentIndex = players.length - 1
         }else if(direction === -1){
@@ -375,9 +384,35 @@ function playCard(cardID){
         console.log(discardPile);
         return true;
         
+
+        const playedCard = tableDeck.firstElementChild;
+        playedCard.classList.add("card-animate-arrive");
+        actualColor = cardInfo[0];
+        console.log(actualColor);
+        cardID.remove();
+        },300);
+
     }
     return false;
     
+}
+
+function specialCardsEffect(Card){
+    if(Card.id.includes("jump")){
+        console.log("Jump card played");
+    }
+    else if(Card.id.includes("reverse")){
+        console.log("Reverse card played");
+    }
+    else if(Card.id.includes("draw2")){
+        console.log("Draw card played");
+    }
+    else if(Card.type.includes("changecolor") && Card.value === null){
+        console.log("Change color card played");
+    }
+    else if(Card.type.includes("draw4") && Card.value === 4){
+        console.log("Draw 4 card played");
+    }      
 }
 
 function setDeckCard(){
@@ -975,6 +1010,7 @@ function drawCard(){
     }
 }
 
+
 function drawRivalCard(rivalID){
     const drawPlayer = document.getElementById(rivalID);
     let drawCard = new Card("","","",null);
@@ -1049,3 +1085,15 @@ function drawRivalCard(rivalID){
     
     
 }
+
+function cambiarPlayPause(){
+    if (musica.paused){
+        musica.muted=false;
+        musica.play();
+        musica.volume= 0.2;
+    }
+    else{
+        musica.pause();
+    }
+}
+
