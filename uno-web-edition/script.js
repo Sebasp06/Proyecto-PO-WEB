@@ -936,7 +936,6 @@ function returnHome() {
 }
 
 function viewRules() {
-    deck = [];
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
     `
@@ -1112,3 +1111,26 @@ function cambiarPlayPause(){
     }
 }
 
+function viewVictory(index) {
+    let rightWindow = document.getElementById("right-window");
+
+    if (index === 0) {
+        rightWindow.innerHTML = 
+    `
+            <div id="welcome-window" class="welcome-window">
+                <strong>El ganador es:</strong>
+                <p class="press"> Haz ganado</p>
+            </div>
+    `;
+    }
+    else{
+        rightWindow.innerHTML = 
+    `
+            <div id="welcome-window" class="welcome-window">
+                <strong>El ganador es:</strong>
+                <p class="press">El ganador es ${index}</p>
+            </div>
+    `;
+    }
+    
+}
