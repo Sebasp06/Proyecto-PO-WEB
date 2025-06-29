@@ -600,7 +600,7 @@ function dealPlayerCards(){
     }
     setDeckCard();
 }
-
+dealRivalsCard("player-deck-1");
 function dealRivalsCard(rivalID){
     const rivalDeck = document.getElementById(rivalID);
     let playerNum = parseInt(rivalID.split("-")[2]);
@@ -797,6 +797,19 @@ function setV3PlayerTable(){
     welcomeWindow.style.width = "1200px";
     initializeDeck();
     dealPlayerCards();
+    player0.isHuman = true;
+    player0.id = "player-deck-0";
+    player0.name = "Jugador 1";
+    player1.id = "player-deck-1";
+    player1.name = "Rival 1";
+    player2.id = "player-deck-2";
+    player2.name = "Rival 2";
+    players.push(player0);
+    players.push(player1);
+    players.push(player2);
+    dealRivalsCard("player-deck-1");
+    dealRivalsCard("player-deck-2");
+    console.log(player0);
 }
 
 function setV4PlayerTable(){
@@ -911,9 +924,24 @@ function setV4PlayerTable(){
     //welcomeWindow.style.width = "1200px";
     initializeDeck();
     dealPlayerCards();
-    dealRivalsCard("rival-deck-1");
-    dealRivalsCard("rival-deck-2");
-    dealRivalsCard("rival-deck-3");
+    player0.isHuman = true;
+    player0.id = "player-deck-0";
+    player0.name = "Jugador 1";
+    player1.id = "player-deck-1";
+    player1.name = "Rival 1";
+    player2.id = "player-deck-2";
+    player2.name = "Rival 2";
+    player3.id = "player-deck-3";
+    player3.name = "Rival 3";
+    players.push(player0);
+    players.push(player1);
+    players.push(player2);
+    players.push(player3);
+    dealRivalsCard("player-deck-1");
+    dealRivalsCard("player-deck-2");
+    dealRivalsCard("player-deck-3");
+    console.log(player0);
+    
 }
 
 function gamingModeSelection() {
