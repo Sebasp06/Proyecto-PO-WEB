@@ -311,6 +311,32 @@ function playRivalCard(cardID){
     return false;
 }
 
+function specialCardsEffectRivals(Card){
+    if(Card.id.includes("jump")){
+        console.log("Jump card played");
+    }
+    else if(Card.id.includes("reverse")){
+        console.log("Reverse card played");
+    }
+    else if(Card.id.includes("draw2")){
+        console.log("Draw card played");
+        moreCardPlayers(2);
+    }
+    else if(Card.type.includes("changecolor") && Card.value === null){
+        console.log("Change color card played");
+    }
+    else if(Card.type.includes("draw4") && Card.value === 4){
+        console.log("Draw 4 card played");
+        moreCardPlayers(4);
+    }      
+}
+
+function moreCardPlayers(index){
+    for (let i = 0; i < index; i++){
+        drawCard();
+    }
+}
+
 function playCard(cardID){
     const tableDeck = document.getElementById("table-deck");
     const cardInfo = cardID.id.split("-");
@@ -463,14 +489,20 @@ function specialCardsEffect(Card){
         console.log("Reverse card played");
     }
     else if(Card.id.includes("draw2")){
-        console.log("Draw card played");
+        moreCardsRivals(2);
     }
     else if(Card.type.includes("changecolor") && Card.value === null){
         console.log("Change color card played");
     }
     else if(Card.type.includes("draw4") && Card.value === 4){
-        console.log("Draw 4 card played");
+        moreCardsRivals(4);
     }      
+}
+
+function moreCardsRivals(index){
+    for (let i = 0; i < index; i++){
+        drawRivalCard(`player-deck-${currentIndex+1}`);
+    }
 }
 
 function setDeckCard(){
