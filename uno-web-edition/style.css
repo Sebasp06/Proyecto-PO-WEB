@@ -425,3 +425,7 @@ strong{
     border-radius: 10px;
     background-color: var(--secondary-color);
 }
+
+.card-table-deck{
+    cursor: pointer;
+}
