@@ -450,3 +450,57 @@ strong{
 .card-table-deck{
     cursor: pointer;
 }
+
+@keyframes arriveCard {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.card-animate-arrive {
+    animation: arriveCard 0.3s ease-out;
+}
+
+@keyframes playCard {
+    0% { transform: translateY(0) rotate(0); opacity: 1; }
+    100% { transform: translateY(-100px) rotate(10deg); opacity: 0; }
+}
+.card-animate-play {
+    animation: playCard 0.5s forwards;
+    position: relative;
+    z-index: 100;
+}
+
+/*Boton audio */
+
+.botonAudio{
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #1E1E1E;
+    margin-top: auto;
+    margin-bottom: 20px;
+    align-self: left;
+    transition: all 0.25s ease;
+    border-width: 0;
+}
+
+.botonAudio p{
+    font-size: 1.5rem;
+    color: #B0B0B0;
+    text-align: center;
+}
+
+
+.botonAudio:active {
+    text-align: center;
+    background-color: #2d2d2d;
+    transition: all .2s ease;
+}
+
+.botonAudio:active p{
+    color: #fff;
+}

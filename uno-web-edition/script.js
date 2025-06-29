@@ -7,6 +7,9 @@ let direction = -1;
 tableDeckInnerHTML = "";
 const colors = ['red','green','blue','yellow'];
 const specialCards = ['jump','reverse','draw-2','draw-4','change-color'];
+const musica=document.getElementById('musica');
+const botonMusica= document.getElementById('botonMusica')
+
 
 class Card{
     constructor (id,color,type,value){
@@ -732,4 +735,13 @@ function drawCard(){
     }
 }
 
-
+function cambiarPlayPause(){
+    if (musica.paused){
+        musica.muted=false;
+        musica.play();
+        musica.volume= 0.2;
+    }
+    else{
+        musica.pause();
+    }
+}
