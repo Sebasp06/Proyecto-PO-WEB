@@ -304,6 +304,7 @@ function playRivalCard(cardID){
         
         console.log(actualColor);
         cardIDHTML.remove();
+        checkCardsRivals(currentIndex);
         console.log(discardPile);
         return true;
         
@@ -380,6 +381,7 @@ function playCard(cardID){
         
         `;
         cardID.remove();
+        checkCardsPlayer();
         tableDeckInnerHTML = tableDeck.innerHTML;
         tableDeck.innerHTML = `
         <li>
@@ -409,6 +411,7 @@ function playCard(cardID){
         
         `;
         cardID.remove();
+        checkCardsPlayer();
         tableDeckInnerHTML = tableDeck.innerHTML;
         tableDeck.innerHTML = `
         <li>
@@ -458,6 +461,7 @@ function playCard(cardID){
     console.log(actualColor);
 
     cardID.remove();
+    checkCardsPlayer();
 
     if (direction === -1 && currentIndex === 0) {
         currentIndex = players.length - 1;
@@ -1119,7 +1123,7 @@ function viewVictory(index) {
     `
             <div id="welcome-window" class="welcome-window">
                 <strong>El ganador es:</strong>
-                <p class="press"> Haz ganado</p>
+                <p class="press">Felicidades! Haz ganado</p>
             </div>
     `;
     }
@@ -1133,4 +1137,22 @@ function viewVictory(index) {
     `;
     }
     
+}
+
+function checkCardsPlayer(){
+    const playerDeck = document.getElementById("player-deck-0");
+    const playerCards = playerDeck.childElementCount;
+    if(playerCards === 0){
+        viewVictory(0);
+        return true;
+    }
+}
+
+function checkCardsRivals(index){
+    const playerDeck = document.getElementById("player-deck-&{index}");
+    const playerCards = playerDeck.childElementCount;
+    if(playerCards === 0){
+        viewVictory(index);
+        return true;
+    }
 }
