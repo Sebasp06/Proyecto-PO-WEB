@@ -889,8 +889,8 @@ function setV3PlayerTable(){
     `;
     let welcomeWindow = document.getElementById("welcome-window");
     welcomeWindow.style.backgroundColor = "#032546"
-    welcomeWindow.style.height = "700px";
-    welcomeWindow.style.width = "1200px";
+    //welcomeWindow.style.height = "700px";
+    //welcomeWindow.style.width = "1200px";
     initializeDeck();
     dealPlayerCards();
     player0.isHuman = true;
