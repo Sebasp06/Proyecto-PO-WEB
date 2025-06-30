@@ -53,15 +53,24 @@ function shuffleCards(){
 function canPlayCard() {
     const topCard = discardPile[discardPile.length - 1];
     const playerCards = player0.cards;
+
     console.log("Top card:", topCard);
+
     for (let i = 0; i < playerCards.length; i++) {
         const card = playerCards[i];
-        if (
-            (card.type === "number" && card.type === topCard.type && card.value === topCard.value) ||
-            card.color === topCard.color ||
-            (card.type === topCard.type && card.value === topCard.value)
-        ) {
-            console.log("TRUE");
+
+        if (card.color === "black") {
+        }
+
+        if (card.color === topCard.color) {
+            return true;
+        }
+
+        if (card.type === topCard.type && card.value === topCard.value) {
+            return true;
+        }
+
+        if (card.type === topCard.type && card.type !== "number") {
             return true;
         }
     }
@@ -72,10 +81,9 @@ function canPlayCard() {
 
 
 
+
 function playBot(){
     let cardCanBePlayed = false;
-    console.log(`currentIndex = ${currentIndex}`);
-    
     for(let i = 0; i < players[currentIndex].cards.length; i++){
         if(playRivalCard(players[currentIndex].cards[i])){
             cardCanBePlayed = true;
@@ -86,8 +94,20 @@ function playBot(){
         drawRivalCard(`player-deck-${currentIndex}`);
         playRivalCard(players[currentIndex].cards[players[currentIndex].cards.length - 1]);
     }
+    advanceTurn();
 
 }
+
+function advanceTurn() {
+    if (direction === -1 && currentIndex === 0) {
+        currentIndex = players.length - 1;
+    } else if (direction === -1) {
+        currentIndex -= 1;
+    } else {
+        currentIndex = (currentIndex + 1) % players.length;
+    }
+}
+
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -113,8 +133,7 @@ function initializeDeck(){
             deck.push(new Card(`${colors[color]}-${number.toString()}-2`,colors[color],'number',number));
         }
     }
-    shuffleCards();
-    console.log(deck);   
+    shuffleCards();   
 }
 
 function setColor(color){
@@ -141,7 +160,6 @@ function playRivalCard(cardID){
     
     const tableDeck = document.getElementById("table-deck");
     const cardInfo = cardID.id.split("-");
-    console.log(cardInfo);
     
     
     const pileDeck = discardPile.length - 1;
@@ -309,23 +327,11 @@ function playRivalCard(cardID){
             </li>
         
         `;
-        console.log(tableDeck.innerHTML);
-        
-        if(direction === -1 && currentIndex === 0){
-            currentIndex = players.length - 1
-        }else if(direction === -1){
-            currentIndex -= 1
-        }else if(direction === 1){
-            currentIndex = (currentIndex + 1) % players.length;
-        }
-        
         
         if(cardInfo[0] !== "black") actualColor = cardInfo[0];
         
-        console.log(actualColor);
         cardIDHTML.remove();
         checkCardsRivals(currentIndex);
-        console.log(discardPile);
         return true;
         
     }
@@ -357,6 +363,7 @@ function moreCardPlayers(index){
         drawCard();
     }
 }
+
 
 function playCard(cardID){
     const tableDeck = document.getElementById("table-deck");
@@ -792,7 +799,6 @@ function setSinglePlayerTable(){
     players.push(player0);
     players.push(player1);
     dealRivalsCard("player-deck-1");
-    console.log(player0);
     
     
 }
@@ -914,7 +920,6 @@ function setV4PlayerTable(){
     dealRivalsCard("player-deck-1");
     dealRivalsCard("player-deck-2");
     dealRivalsCard("player-deck-3");
-    console.log(player0);
     
 }
 
@@ -1001,12 +1006,10 @@ function drawCard(){
     }
     const drawPlayer = document.getElementById("player-deck-0");
     let drawCard = new Card("","","",null);
-    console.log(deck.length);
     
     if(deck.length !== 0){
         drawCard = deck[0];
         player0.cards.push(drawCard);
-        console.log(drawCard);
         deck.splice(0,1);
     }else{
         return;
@@ -1091,12 +1094,10 @@ function drawCard(){
 function drawRivalCard(rivalID){
     const drawPlayer = document.getElementById(rivalID);
     let drawCard = new Card("","","",null);
-    console.log(deck.length);
     
     if(deck.length !== 0){
         drawCard = deck[0];
         players[currentIndex].cards.push(drawCard);
-        console.log(drawCard);
         deck.splice(0,1);
     }else{
         return;
@@ -1198,7 +1199,7 @@ function checkCardsPlayer(){
 }
 
 function checkCardsRivals(index){
-    const playerDeck = document.getElementById("player-deck-&{index}");
+    const playerDeck = document.getElementById(`player-deck-${index}`);
     const playerCards = playerDeck.childElementCount;
     if(playerCards === 0){
         viewVictory(index);
