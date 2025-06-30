@@ -6,6 +6,7 @@ let canDrawCard = true;
 let currentIndex = 0;
 let direction = -1;
 let players = [];
+let winner = "";
 tableDeckInnerHTML = "";
 const colors = ['red','green','blue','yellow'];
 const specialCards = ['jump','reverse','draw-2','draw-4','change-color'];
@@ -60,6 +61,7 @@ function canPlayCard() {
         const card = playerCards[i];
 
         if (card.color === "black") {
+            return true;
         }
 
         if (card.color === topCard.color) {
@@ -76,6 +78,7 @@ function canPlayCard() {
     }
 
     console.log("false");
+    advanceTurn();
     return false;
 }
 
@@ -104,6 +107,7 @@ function advanceTurn() {
     } else if (direction === -1) {
         currentIndex -= 1;
     } else {
+        console.log("currentIndex" + currentIndex);
         currentIndex = (currentIndex + 1) % players.length;
     }
 }
@@ -286,6 +290,7 @@ function playRivalCard(cardID){
             </li>`;
         }
         
+        
     }else if(cardInfo[0] === actualColor){
         canBePlayed = true;
         atributte = "number";
@@ -304,6 +309,7 @@ function playRivalCard(cardID){
         canBePlayed = true;
         atributte = "number";
         value = parseInt(cardInfo[1]);
+        
         const cardColor = cardID.color;
         const cardid = cardID.id;
         const cardNumber = cardID.value;
@@ -317,10 +323,10 @@ function playRivalCard(cardID){
 
     if(canBePlayed){
         players[currentIndex].cards = players[currentIndex].cards.filter(card => card.id !== cardID.id);
-
+        
         discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
         tableDeck.innerHTML = `
-        
+    
             ${cardIDHTML.innerHTML}
             <li class="card card-table-deck card-hidden cards-left" onclick="drawCard()">
                 <img src="assets/images/Uno-Logo-2020.svg">
@@ -331,36 +337,56 @@ function playRivalCard(cardID){
         if(cardInfo[0] !== "black") actualColor = cardInfo[0];
         
         cardIDHTML.remove();
+        specialCardsEffectRivals(cardID);
         checkCardsRivals(currentIndex);
         return true;
         
     }
     return false;
 }
+function drawCardPlayer() {
+    
+    if (deck.length === 0) return;
 
+    const drawPlayer = document.getElementById("player-deck-0");
+    const card = deck.shift(); 
+    player0.cards.push(card);
+    drawPlayer.innerHTML += generateCardHTML(card, true);
+}
 function specialCardsEffectRivals(Card){
+    
     if(Card.id.includes("jump")){
         console.log("Jump card played");
+        advanceTurn();
     }
     else if(Card.id.includes("reverse")){
         console.log("Reverse card played");
+        if(direction === 1){
+            direction = -1;
+        }else{
+            direction = 1;
+        }
+        advanceTurn();
     }
     else if(Card.id.includes("draw2")){
         console.log("Draw card played");
         moreCardPlayers(2);
+        advanceTurn();
     }
     else if(Card.type.includes("changecolor") && Card.value === null){
         console.log("Change color card played");
+        advanceTurn();
     }
-    else if(Card.type.includes("draw4") && Card.value === 4){
+    else if(Card.type.includes("draw")){
         console.log("Draw 4 card played");
         moreCardPlayers(4);
+        advanceTurn();
     }      
 }
 
 function moreCardPlayers(index){
     for (let i = 0; i < index; i++){
-        drawCard();
+        drawCardPlayer();
     }
 }
 
@@ -539,18 +565,28 @@ function playCard(cardID){
 function specialCardsEffect(Card){
     if(Card.id.includes("jump")){
         console.log("Jump card played");
+        advanceTurn();
     }
     else if(Card.id.includes("reverse")){
         console.log("Reverse card played");
+        if(direction === 1){
+            direction = -1
+            advanceTurn();
+        }else{
+            direction = 1;
+            advanceTurn();
+        }
     }
     else if(Card.id.includes("draw2")){
         moreCardsRivals(2);
+        advanceTurn()
     }
     else if(Card.type.includes("changecolor") && Card.value === null){
         console.log("Change color card played");
     }
     else if(Card.type.includes("draw4") && Card.value === 4){
         moreCardsRivals(4);
+        advanceTurn();
     }      
 }
 
@@ -766,6 +802,13 @@ function unoScream(){
 }
 
 function setSinglePlayerTable(){
+    deck = [];
+    discardPile = [];
+    player0 = new Player();
+    player1 = new Player();
+    player2 = new Player();
+    player3 = new Player();
+    players = [];
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
     `
@@ -804,6 +847,13 @@ function setSinglePlayerTable(){
 }
 
 function setV3PlayerTable(){
+    deck = [];
+    discardPile = [];
+    player0 = new Player();
+    player1 = new Player();
+    player2 = new Player();
+    player3 = new Player();
+    players = [];
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
     `
@@ -858,6 +908,13 @@ function setV3PlayerTable(){
 }
 
 function setV4PlayerTable(){
+    deck = [];
+    discardPile = [];
+    player0 = new Player();
+    player1 = new Player();
+    player2 = new Player();
+    player3 = new Player();
+    players = [];
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
     `
@@ -999,6 +1056,69 @@ function viewRules() {
     `;
 }
 
+function generateCardHTML(card, isPlayer = false) {
+    const cardID = card.id;
+    const cardColor = card.color;
+    const cardType = card.type;
+    const cardValue = card.value;
+    const playerClass = isPlayer ? "card-player" : "";
+
+    if (cardType === "number") {
+        return `
+        <li class="card card-deck ${playerClass} ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+            <p class="top-number number edge">${cardValue}</p>
+            <p class="mid-number number">${cardValue}</p>
+            <p class="bottom-number number edge">${cardValue}</p>
+        </li>`;
+    }
+
+    if (cardType === "reverse") {
+        return `
+        <li class="card card-deck ${playerClass} ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+            <img src="assets/images/reverse.png" class="reverse-img-top">
+            <img src="assets/images/reverse.png" class="reverse-img">
+            <img src="assets/images/reverse.png" class="reverse-img-bottom">
+        </li>`;
+    }
+
+    if (cardType === "jump") {
+        return `
+        <li class="card card-deck ${playerClass} ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+            <img src="assets/images/block.svg" class="jump-img-top">
+            <img src="assets/images/block.svg" class="jump-img">
+            <img src="assets/images/block.svg" class="jump-img-bottom">
+        </li>`;
+    }
+
+    if (cardType === "draw" && cardValue === 2) {
+        return `
+        <li class="card card-deck ${playerClass} ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+            <p class="top-number number edge">+2</p>
+            <img src="assets/images/draw2.svg" class="reverse-img">
+            <p class="bottom-number number edge">+2</p>
+        </li>`;
+    }
+
+    if (cardType === "draw" && cardValue === 4) {
+        return `
+        <li class="card card-deck ${playerClass} ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+            <p class="top-number number edge">+4</p>
+            <img src="assets/images/draw4.svg" class="reverse-img">
+            <p class="bottom-number number edge">+4</p>
+        </li>`;
+    }
+
+    if (cardType === "change-color") {
+        return `
+        <li class="card card-deck ${playerClass} ${cardColor} ${cardID}" id="${cardID}" onclick="playCard(this)">
+            <img src="assets/images/color.svg" class="reverse-img">
+        </li>`;
+    }
+
+    return "";
+}
+
+
 function drawCard(){
     if(!canDrawCard){
             alert("Ya has robado una carta, no puedes robar más");
@@ -1074,7 +1194,7 @@ function drawCard(){
             </li>`;
     }
     canDrawCard = false;
-    if(!canPlayCard() && direction === 1){
+    if(!canPlayCard() && direction === 1){        
         currentIndex = (currentIndex + 1) % players.length;
         playBots();
     }else if(!canPlayCard() && direction === -1){
@@ -1089,6 +1209,8 @@ function drawCard(){
         }
     }
 }
+
+
 
 
 function drawRivalCard(rivalID){
@@ -1165,15 +1287,16 @@ function cambiarPlayPause(){
     }
 }
 
-function viewVictory(index) {
+
+function viewVictory(index,player) {
     let rightWindow = document.getElementById("right-window");
 
     if (index === 0) {
         rightWindow.innerHTML = 
     `
             <div id="welcome-window" class="welcome-window">
-                <strong>El ganador es:</strong>
-                <p class="press">Felicidades! Haz ganado</p>
+                <strong>El ganador es: ${player}</strong>
+                <p class="press">Felicidades! Has ganado</p>
             </div>
     `;
     }
@@ -1182,18 +1305,21 @@ function viewVictory(index) {
     `
             <div id="welcome-window" class="welcome-window">
                 <strong>El ganador es:</strong>
-                <p class="press">El ganador es ${index}</p>
+                <p class="press">El ganador es ${player}</p>
             </div>
     `;
     }
     
 }
 
+
 function checkCardsPlayer(){
     const playerDeck = document.getElementById("player-deck-0");
     const playerCards = playerDeck.childElementCount;
     if(playerCards === 0){
-        viewVictory(0);
+        console.log(player0.name);
+        
+        viewVictory(0,player0.name);
         return true;
     }
 }
@@ -1202,7 +1328,7 @@ function checkCardsRivals(index){
     const playerDeck = document.getElementById(`player-deck-${index}`);
     const playerCards = playerDeck.childElementCount;
     if(playerCards === 0){
-        viewVictory(index);
+        viewVictory(index,players[index].name);
         return true;
     }
 }
