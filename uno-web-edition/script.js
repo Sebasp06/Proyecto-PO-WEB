@@ -323,22 +323,26 @@ function playRivalCard(cardID){
 
     if(canBePlayed){
         players[currentIndex].cards = players[currentIndex].cards.filter(card => card.id !== cardID.id);
-        
-        discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
-        tableDeck.innerHTML = `
+        cardIDHTML.classList.add("card-animate-play");
+        setTimeout(() => {
+            discardPile.push(new Card(cardID.id,cardInfo[0],atributte,value));
+            tableDeck.innerHTML = `
     
             ${cardIDHTML.innerHTML}
             <li class="card card-table-deck card-hidden cards-left" onclick="drawCard()">
                 <img src="assets/images/Uno-Logo-2020.svg">
             </li>
         
-        `;
+            `;
         
-        if(cardInfo[0] !== "black") actualColor = cardInfo[0];
+            if(cardInfo[0] !== "black") actualColor = cardInfo[0];
+            cardIDHTML.classList.remove("card-animate-play");
+            cardIDHTML.remove();
+            
+            specialCardsEffectRivals(cardID);
+            checkCardsRivals(currentIndex);
         
-        cardIDHTML.remove();
-        specialCardsEffectRivals(cardID);
-        checkCardsRivals(currentIndex);
+        },300);
         return true;
         
     }
