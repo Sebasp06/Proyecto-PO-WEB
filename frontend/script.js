@@ -3,6 +3,7 @@ let gameId = null;
 let ws = new WebSocket('ws://localhost:3001/uno');
 let index = 0;
 let player = []
+let chosenColor = null;
 
 ws.onopen = () => {
   console.log('Conexión establecida');
@@ -58,54 +59,38 @@ ws.onmessage = (e) => {
     switch(msg.type) {
     case 'client_play':
       console.log('Jugador humano jugó carta');
-      gameState.discardPile = gameState.clientCards[index];
-      gameState.clientCards.splice(index, 1);
+      gameState = msg.gameState
       updateGameUI(gameState);
       break;
 
     case 'bot_play':
       console.log(`Bot ${msg.player} jugó carta`);
-      player = msg.player.split(' '); //['player','2']
-      gameState.otherPlayers[player[1] - 2].count --;
-      console.log(gameState.otherPlayers[player[1] - 2].count);
-      gameState.discardPile = msg.card;
-      
+      gameState = msg.gameState
       updateGameUI(gameState);
 
       break;
 
     case 'client_draw_from_deck':
       console.log('Jugador humano robó carta');
-      gameState.clientCards.push(msg.card);
+      gameState = msg.gameState
       updateGameUI(gameState);
       break;
 
     case 'bot_draw_from_deck':
       console.log(`Bot ${msg.player} robó carta`);
-      player = msg.player.split(' '); //['player','2']
-      gameState.otherPlayers[player[1] - 2].count ++;
+      gameState = msg.gameState
       updateGameUI(gameState);
       break;
 
     case 'draw_penalty':
       console.log(`Penalización de ${msg.amount}`);
-      console.log(msg.affectedPlayer);
-      
-      if(msg.affectedPlayer !== 0){
-        gameState.otherPlayers[msg.affectedPlayer - 1].count += msg.amount;
-        
-      }
+      gameState = msg.gameState
       updateGameUI(gameState);
       break;
 
     case 'uno_penalty':
       console.log(`Penalización de ${msg.amount}`);
-      console.log(msg.affectedPlayer);
-      
-      if(msg.affectedPlayer !== 0){
-        gameState.otherPlayers[msg.affectedPlayer - 1].count += msg.amount;
-        
-      }
+      gameState = msg.gameState
       updateGameUI(gameState);
       console.log('Penalización por no decir UNO');
       break;
@@ -139,13 +124,13 @@ ws.onmessage = (e) => {
 function updateGameUI(state) {
   const playerDeck = document.getElementById('player-deck-0');
   if (playerDeck) {
-    playerDeck.innerHTML = state.clientCards.map(card => displayCard(card, true)).join('');
+    playerDeck.innerHTML = state.clientCards.map(card => displayCard(card, true,false)).join('');
   }
 
   const tableDeck = document.getElementById('table-deck');
   if (tableDeck) {
     tableDeck.innerHTML = `
-    ${displayCard(state.discardPile,false)}
+    ${displayCard(state.discardPile,false,true)}
     <li class="card card-hidden" onclick= "drawCard()">
       <img src="assets/Uno-Logo-2020.png">
     </li>
@@ -178,7 +163,7 @@ function renderGame(currentState) {
   console.log("Renderizando juego con el estado:", currentState);
   for(let i = 0; i < clientCards.length; i++){
     
-    clientContainer += displayCard(clientCards[i],true);
+    clientContainer += displayCard(clientCards[i],true, false);
 
   }
   allCards.push(clientContainer);
@@ -186,7 +171,7 @@ function renderGame(currentState) {
     const rivalCards = currentState.otherPlayers[i];
     
     for(let j = 0; j < 7; j ++){
-      rivalContainer += displayCard(rivalCards[j],false)
+      rivalContainer += displayCard(rivalCards[j],false,false)
     }
     allCards.push(rivalContainer);
   }
@@ -204,13 +189,42 @@ function displayRivalCards(){
   
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function setColor(color){
+
+  gameState.currentColor = color;
+
+}
+
 async function playCard(element){
 
   const clientCards = document.getElementById("player-deck-0");
   const listOfElements = Array.from(clientCards.children);
-  index = listOfElements.indexOf(element);  
-  console.log();
 
+  index = listOfElements.indexOf(element);
+  console.log(gameState.clientCards[index].color === "wild");
+  
+  if(gameState.clientCards[index].color === "wild"){
+    console.log("wild card detected");
+    const tableDeck = document.getElementById("table-deck");
+    tableDeck.innerHTML = 
+    
+    `
+    <li>
+            <svg width="200" height="200" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path style="cursor: pointer;" d="M62 32C62 48.5685 48.5685 62 32 62" stroke="#FF0000" stroke-width="2" onclick="setColor('red')"/>
+                <path style="cursor: pointer;" d="M62 31C62 14.4315 48.5685 1 32 1" stroke="#84C03F" stroke-width="2" onclick="setColor('green')"/>
+                <path style="cursor: pointer;" d="M1 31C1 14.4315 14.4315 1 31 1" stroke="#FFD237" stroke-width="2" onclick="setColor('yellow')"/>
+                <path style="cursor: pointer;" d="M1 32C1 48.5685 14.4315 62 31 62" stroke="#0A78B9" stroke-width="2" onclick="setColor('blue')"/>
+            </svg>
+        </li>
+    `;
+    await sleep(5000);
+    //aqui deberia ir el modal
+  }  
     try {
     // Enviar la jugada al servidor
     const response = await fetch('http://localhost:3001/play', {
@@ -221,7 +235,7 @@ async function playCard(element){
       body: JSON.stringify({
         gameId: gameId,
         card: gameState.clientCards[index],
-        chosenColor: null
+        chosenColor: chosenColor
       })
     });
 
@@ -231,8 +245,7 @@ async function playCard(element){
     }
     
     
-
-    //se elimine la carta seleccionada
+    chosenColor = null;
 
   } catch (error) {
     console.error('Error al jugar carta:', error);
@@ -312,7 +325,7 @@ async function newRound() {
   }
 }
 
-function displayCard(clientCard,isHuman){
+function displayCard(clientCard,isHuman, cardOnTable){
 
   let classCard = "";
   let click = "";
@@ -357,17 +370,29 @@ function displayCard(clientCard,isHuman){
                 <img src="assets/draw2.svg" alt="carta salto" class="reverse-img">
                 <p class="bottom-number number edge">+2</p>
     </li>`
-  }else if(clientCard && clientCard.type === "wild4"){
+  }else if(clientCard && clientCard.type === "wild4" && !cardOnTable){
     return `
     <li class="card ${classCard} black ${clientCard.id}" id="${clientCard.id}" ${click}>
                 <p class="top-number number edge">+4</p>
                 <img src="assets/draw4.svg" alt="carta salto" class="reverse-img">
                 <p class="bottom-number number edge">+4</p>
     </li>`
-  }else if(clientCard && clientCard.type === "wild"){
+  }else if(clientCard && clientCard.type === "wild" && !cardOnTable){
     return `
-    <li class="card ${classCard} black ${clientCard.id}" id="${clientCard.id}" ${click}">
+    <li class="card ${classCard} black ${clientCard.id}" id="${clientCard.id}" ${click}>
                 <img src="assets/color.svg" alt="carta salto" class="reverse-img">
+    </li>`
+  }else if(clientCard && clientCard.type === "wild4" && cardOnTable){
+    return `
+    <li class="card ${classCard} black ${clientCard.id}" id="${clientCard.id}" ${click}>
+                <p class="top-number number edge">+4</p>
+                <img src="assets/draw4${gameState.currentColor}.svg" alt="carta salto" class="reverse-img">
+                <p class="bottom-number number edge">+4</p>
+    </li>`
+  }else if(clientCard && clientCard.type === "wild" && cardOnTable){
+    return `
+    <li class="card ${classCard} black ${clientCard.id}" id="${clientCard.id}" ${click}>
+                <img src="assets/color${gameState.currentColor}.svg" alt="carta salto" class="reverse-img">
     </li>`
   }
 
