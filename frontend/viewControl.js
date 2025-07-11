@@ -1,3 +1,4 @@
+
 function setSinglePlayerTable(){
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
@@ -75,6 +76,7 @@ function setV3PlayerTable(){
     welcomeWindow.style.backgroundColor = "#032546"
     welcomeWindow.style.height = "700px";
     welcomeWindow.style.width = "1200px";
+    /*
     initializeDeck();
     dealPlayerCards();
     player0.isHuman = true;
@@ -89,74 +91,9 @@ function setV3PlayerTable(){
     players.push(player2);
     dealRivalsCard("player-deck-1");
     dealRivalsCard("player-deck-2");
+    */
 }
 
-function setV4PlayerTable(){
-    let rightWindow = document.getElementById("right-window");
-    rightWindow.innerHTML = 
-    `
-    <section id="welcome-window" class="welcome-window">
-
-    <div class="v4player-deck">
-
-        <div class= rival-one>
-            <ul class="rival-deck deck" id="player-deck-1">
-            </ul>
-        </div>
-
-        <div class= rival-three>
-            <ul class="rival-deck deck" id="player-deck-2">
-            </ul>
-        </div>
-
-        <div class= rival-two>
-            <ul class="rival-deck deck" id="player-deck-3">
-            </ul>
-        </div>
-
-        <div class= "middle">
-            <ul class="table-deck deck" id="table-deck">
-                <li class="card card-hidden"></li>
-                <li class="card card-hidden"></li>
-            </ul>
-            <button class="uno-button" id="uno-button" onclick="unoScream()">
-                <img src="assets/images/Uno-Logo-2020.svg"></img>
-        </button>
-        </div>
-
-        <div class= "player">
-            <ul class="player-deck deck" id="player-deck-0">       
-            </ul>
-        </div>
-
-    </div>
-    </section>
-    `;
-    let welcomeWindow = document.getElementById("welcome-window");
-    welcomeWindow.style.backgroundColor = "#032546"
-    //welcomeWindow.style.height = "70px";
-    //welcomeWindow.style.width = "1200px";
-    initializeDeck();
-    dealPlayerCards();
-    player0.isHuman = true;
-    player0.id = "player-deck-0";
-    player0.name = "Jugador 1";
-    player1.id = "player-deck-1";
-    player1.name = "Rival 1";
-    player2.id = "player-deck-2";
-    player2.name = "Rival 2";
-    player3.id = "player-deck-3";
-    player3.name = "Rival 3";
-    players.push(player0);
-    players.push(player1);
-    players.push(player2);
-    players.push(player3);
-    dealRivalsCard("player-deck-1");
-    dealRivalsCard("player-deck-2");
-    dealRivalsCard("player-deck-3");
-    console.log(player0);
-    
-}
 
 function gamingModeSelection() {
     deck = [];
