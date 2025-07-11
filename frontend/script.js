@@ -4,6 +4,10 @@ let ws = new WebSocket('ws://localhost:3001/uno');
 let index = 0;
 let player = []
 let chosenColor = null;
+const notification = document.getElementById('notification-window');
+const notificationText = document.getElementById('notification-text');
+const modal = document.getElementById('modal');
+const modalContent = document.getElementById('modal-content');
 
 ws.onopen = () => {
   console.log('Conexión establecida');
@@ -97,11 +101,24 @@ ws.onmessage = (e) => {
 
     case 'uno_warning':
       console.log('Advertencia: decir UNO');
-      //Agregar un modal que indique que debes presionar uno
+      textElement.textContent = "Presiona el botón de UNO para gritarlo, aprovecha la oportunidad";
+      notification.classList.remove('hidden');
+
+      setTimeout(() => {
+        notification.classList.add('hidden');
+        }, 3000); 
       break;
 
     case 'client_uno':
       console.log('Jugador humano dijo UNO');
+      modalContent.innerHTML = `
+                <img src="assets/UNO-Logopng.png"></img>
+                <p class="modal-text">Haz gritado UNO</p>
+      `;
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 3000);
       break;
 
     case 'bot_uno':
@@ -235,7 +252,7 @@ async function playCard(element){
       body: JSON.stringify({
         gameId: gameId,
         card: gameState.clientCards[index],
-        chosenColor: chosenColor
+        chosenColor: gameState.currentColor
       })
     });
 
