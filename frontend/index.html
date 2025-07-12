@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNO!</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <audio id="musica">
+        <source src="assets/Com Truise - Memory.mp3" type="audio/mp3" >
+    </audio>
+    
+    
+    <main id="main-window" class="main-window">
+        <aside id="option-sidebar" class="option-sidebar">
+            <img src="assets/uno-side.png" alt="imagen de uno" class="side-img">
+            <ul class="options">
+                <li class="option" onclick="returnHome()"><p>Home</p></li>
+                <li class="option" onclick="gamingModeSelection()"><p>Game Mode</p></li>
+                <li class="option" onclick="viewRules()"><p>Rules</p></li>
+            </ul>
+            <button class="botonAudio" onclick="cambiarPlayPause()" id="botonMusica"><p>♬</p></button>
+        </aside>
+        <section id="right-window">
+            <div id="welcome-window" class="welcome-window">
+                <strong>BIENVENIDO A</strong>
+                <img src="assets/UNO-Logopng.png" alt="Logo UNO" class="start-img" onclick="setV4PlayerTable()">
+                <p class="press">Presiona para continuar</p>
+                <p class="slogan">¡El clásico que nunca pasa de moda!</p>
+                <p class="team">Grupo 2: Sebastián Pérez, Lisa García y Ana García</p>
+            </div>
+        </section>
+        <div id="notification-window" class="notification-window hidden">
+            <p id="notification-text"></p>
+        </div>
+        <div id="modal" class="modal hidden">
+            <div class="modal-content" id="modal-content">
+            </div>
+        </div>
+
+        <div id="unoScream" class="unoScream hidden">
+            <div id="unoScream-content" class="unoScream-content">
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script src="viewControl.js"></script>
+</body>
+</html>
