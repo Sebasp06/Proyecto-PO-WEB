@@ -39,8 +39,8 @@ body{
 }
 
 .card{
-    width: 120px;
-    height: 180px;
+    width: 100px;
+    height: 160px;
     display: flex;
     flex-direction: column;
     font-family: "Barlow Condensed", sans-serif;
@@ -346,6 +346,7 @@ strong{
 /*Aqui puse el height y el width para probar que tal se veia*/
 .v4player-deck {
     display: grid;
+    position: fixed;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto 1fr auto;
     padding: 20px;
@@ -634,7 +635,7 @@ strong{
     color: white;
     position: absolute;
     top: 10%;
-    left: 30%;
+    right: 10%;
     width: 300px;
     height: 200px;
     align-items: center;
