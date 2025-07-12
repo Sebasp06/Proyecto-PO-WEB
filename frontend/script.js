@@ -6,6 +6,8 @@ let player = []
 let chosenColor = null;
 const notification = document.getElementById('notification-window');
 const notificationText = document.getElementById('notification-text');
+const unoScreamModal = document.getElementById('unoScream');
+const unoScreamContent = document.getElementById('unoScream-content');
 const modal = document.getElementById('modal');
 const modalContent = document.getElementById('modal-content');
 
@@ -18,6 +20,47 @@ ws.onopen = () => {
     }));
   }
 };
+
+
+async function startNewRound(){
+  resetV4PlayerTable();
+  try {
+    const response = await fetch('http://localhost:3001/new-round', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },body: JSON.stringify({
+        gameId: gameState.gameId,
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al iniciar la partida');
+    }
+
+    gameState = await response.json();
+    gameId = gameState.gameId;
+
+    console.log('Partida iniciada:', gameState);
+    console.log('ID del juego:', gameId);
+
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({
+        type: 'subscribe',
+        gameId: gameId
+      }));
+    }
+
+
+    updateGameUI(gameState);
+    
+    return;
+
+  } catch (error) {
+    console.error('Error al iniciar el juego:', error);
+    showNotification("Error al iniciar el juego: " + error.message);
+  }
+}
 
 async function startGame() {
   try {
@@ -38,7 +81,7 @@ async function startGame() {
     console.log('Partida iniciada:', gameState);
     console.log('ID del juego:', gameId);
 
-     if (ws.readyState === WebSocket.OPEN) {
+    if (ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({
         type: 'subscribe',
         gameId: gameId
@@ -64,12 +107,27 @@ ws.onmessage = (e) => {
     case 'client_play':
       console.log('Jugador humano jugó carta');
       gameState = msg.gameState
+      notificationText.textContent = `Has jugado una carta`;
+      notification.classList.toggle('hidden');
+
+      setTimeout(() => {
+        notification.classList.toggle('hidden');
+        notificationText.classList.toggle('hidden');
+        }, 3000); 
       updateGameUI(gameState);
       break;
 
     case 'bot_play':
       console.log(`Bot ${msg.player} jugó carta`);
       gameState = msg.gameState
+
+      notificationText.textContent = `${msg.player} ha jugado`;
+      notification.classList.toggle('hidden');
+
+      setTimeout(() => {
+        notification.classList.toggle('hidden');
+        notificationText.classList.toggle('hidden');
+        }, 3000); 
       updateGameUI(gameState);
 
       break;
@@ -77,18 +135,42 @@ ws.onmessage = (e) => {
     case 'client_draw_from_deck':
       console.log('Jugador humano robó carta');
       gameState = msg.gameState
+
+      notificationText.textContent = `Has robado una carta`;
+      notification.classList.toggle('hidden');
+
+      setTimeout(() => {
+        notification.classList.toggle('hidden');
+        notificationText.classList.toggle('hidden');
+        }, 3000); 
       updateGameUI(gameState);
       break;
 
     case 'bot_draw_from_deck':
       console.log(`Bot ${msg.player} robó carta`);
-      gameState = msg.gameState
+      gameState = msg.gameState;
+      notificationText.textContent = `${msg.player} ha robado una carta`;
+      notification.classList.toggle('hidden');
+
+      setTimeout(() => {
+        notification.classList.toggle('hidden');
+        notificationText.classList.toggle('hidden');
+        }, 3000); 
+      updateGameUI(gameState);
       updateGameUI(gameState);
       break;
 
     case 'draw_penalty':
       console.log(`Penalización de ${msg.amount}`);
       gameState = msg.gameState
+      notificationText.textContent = `${msg.player} ha sido penalizado`;
+      notification.classList.toggle('hidden');
+
+      setTimeout(() => {
+        notification.classList.toggle('hidden');
+        notificationText.classList.toggle('hidden');
+        }, 3000); 
+      updateGameUI(gameState);
       updateGameUI(gameState);
       break;
 
@@ -97,37 +179,85 @@ ws.onmessage = (e) => {
       gameState = msg.gameState
       updateGameUI(gameState);
       console.log('Penalización por no decir UNO');
+      updateGameUI(gameState);
       break;
 
     case 'uno_warning':
       console.log('Advertencia: decir UNO');
-      textElement.textContent = "Presiona el botón de UNO para gritarlo, aprovecha la oportunidad";
-      notification.classList.remove('hidden');
+      notificationText.textContent = "Presiona el botón de UNO para gritarlo, aprovecha la oportunidad";
+      notification.classList.toggle('hidden');
 
       setTimeout(() => {
-        notification.classList.add('hidden');
-        }, 3000); 
+        notification.classList.toggle('hidden');
+        notificationText.classList.toggle('hidden');
+        }, 3000);
       break;
 
     case 'client_uno':
       console.log('Jugador humano dijo UNO');
-      modalContent.innerHTML = `
+      unoScreamContent.innerHTML = `
                 <img src="assets/UNO-Logopng.png"></img>
-                <p class="modal-text">Haz gritado UNO</p>
+                <p>Haz gritado UNO</p>
       `;
-      modal.classList.remove('hidden');
+      unoScreamModal.classList.toggle('hidden');
+
       setTimeout(() => {
-        modal.classList.add('hidden');
-      }, 3000);
+        unoScreamModal.classList.toggle('hidden');
+        unoScreamContent.classList.toggle('hidden');
+      }, 1000);
       break;
 
     case 'bot_uno':
       console.log(`Bot ${msg.player} dijo UNO`);
+      unoScreamContent.innerHTML = `
+                <img src="assets/UNO-Logopng.png"></img>
+                <p>${msg.player} ha gritado UNO</p>
+      `;
+      unoScreamModal.classList.toggle('hidden');
+      setTimeout(() => {
+        unoScreamModal.classList.toggle('hidden');
+        unoScreamContent.classList.toggle('hidden');
+      }, 1000);
       break;
 
     case 'round_score':
       console.log('Fin de ronda', msg.winner, msg.roundScore);
-      //modal con mensaje de finalizado, que devuelva a la pagina de inicio
+      modalContent.innerHTML=`
+      <h2>${msg.winner} ha ganado</h2>
+        <p><i>Posiciones</i></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="tg-baqh">Jugadores</th>
+                            <th class="tg-baqh">Puntaje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tg-baqh">Player 1</td>
+                            <td class="tg-baqh">${msg.scores[0]}</td>
+                        </tr>
+                        <tr>
+                            <td class="tg-baqh">Player 2</td>
+                            <td class="tg-baqh">${msg.scores[1]}</td>
+                        </tr>
+                        <tr>
+                            <td class="tg-baqh">Player 3</td>
+                            <td class="tg-baqh">${msg.scores[2]}</td>
+                        </tr>
+                        <tr>
+                            <td class="tg-baqh">Player 4</td>
+                            <td class="tg-baqh">${msg.scores[3]}</td>
+                            </tr>
+                    </tbody>
+                </table>
+                <div id="buttonsModal" class="modalButtons">
+                    <button onclick= "startNewRound()">Reiniciar</button> 
+                    <button onclick= "returnHome()" >Salir</button>
+                </div>
+      `;
+      modal.classList.toggle('hidden');
+    
       break;
 
     default:
@@ -210,10 +340,8 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function setColor(color){
-
+function setColor(color){  
   gameState.currentColor = color;
-
 }
 
 async function playCard(element){
@@ -239,7 +367,7 @@ async function playCard(element){
             </svg>
         </li>
     `;
-    await sleep(5000);
+    await sleep(3000);
     //aqui deberia ir el modal
   }  
     try {
@@ -258,7 +386,15 @@ async function playCard(element){
 
     if (!response.ok) {
       const error = await response.json();
+      notificationText.textContent = "La carta que intetaste jugar no es compatible con la carta de la pila de descarte";
+      notification.classList.toggle('hidden');
+
+      setTimeout(() => {
+        notification.classList.toggle('hidden');
+        notificationText.classList.toggle('hidden');
+        }, 3000);
       throw new Error(error.message || "Error al jugar carta");
+
     }
     
     
@@ -413,6 +549,55 @@ function displayCard(clientCard,isHuman, cardOnTable){
     </li>`
   }
 
+}
+
+async function resetV4PlayerTable(){
+    let rightWindow = document.getElementById("right-window");
+    modal.innerHTML = `<div class="modal-content" id="modal-content"></div>`;
+    modal.classList.toggle('hidden');
+    rightWindow.innerHTML = 
+    `
+    <section id="welcome-window" class="welcome-window">
+
+    <div class="v4player-deck">
+
+        <div class= rival-one>
+            <ul class="rival-deck deck" id="player-deck-1">
+            </ul>
+        </div>
+
+        <div class= rival-three>
+            <ul class="rival-deck deck" id="player-deck-2">
+            </ul>
+        </div>
+
+        <div class= rival-two>
+            <ul class="rival-deck deck" id="player-deck-3">
+            </ul>
+        </div>
+
+        <div class= "middle">
+            <ul class="table-deck deck" id="table-deck">
+                <li class="card card-hidden"></li>
+                <li class="card card-hidden"></li>
+            </ul>
+            <button class="uno-button" id="uno-button" onclick="unoScream()">
+                <img src='assets/Uno-Logo-2020.png'></img>
+        </button>
+        </div>
+
+        <div class= "player">
+            <ul class="player-deck deck" id="player-deck-0">
+            </ul>
+        </div>
+
+    </div>
+    </section>
+    `;
+    let welcomeWindow = document.getElementById("welcome-window");
+    welcomeWindow.style.backgroundColor = "#032546";
+    
+    
 }
 
 async function setV4PlayerTable(){

@@ -9,6 +9,10 @@
     padding: 0;
 }
 
+table{
+    font-family: "Poppins", sans-serif;
+}
+
 .black{
     background-color: var(--primary-color);
 }
@@ -513,14 +517,15 @@ strong{
     color: white;
     position: absolute;
     top: 10%;
-    left: 25%;
-    background-color: #1f1d31e8;
-    width: 300px;
-    height: 200px;
+    left: 30%;
+    background-color: #2d2d2d8b;
+    width: 250px;
+    height: auto;
     align-items: center;
     justify-items: center;
     border-radius: 10%;
     transition: all 0.3s ease;
+    padding: 20px;
 }
 
 .notification-content {
@@ -529,23 +534,39 @@ strong{
     align-items: center;
     justify-content: center;
     height: 100%;
+    width:100%;
+    border-radius: 10%;
+}
+
+.notification-content hidden{
+    display: none;
+}
+
+.notification-window hidden{
+    display: none;
 }
 
 .modal.hidden {
   display: none;
 }
 
+
+
 .modal {
     color: white;
     position: absolute;
-    top: 40%;
-    left: 45%;
-    width: 300px;
-    height: 200px;
+    background-color: #2d2d2d;
+
+    /*Medidas para ganador*/
+    top: 20%;
+    left: 40%;
+    width: 500px;
+    height: 500px;
     align-items: center;
     justify-items: center;
     border-radius: 10%;
     transition: all 0.3s ease;
+
 }
 
 .modal-content {
@@ -554,9 +575,93 @@ strong{
     align-items: center;
     justify-content: center;
     height: 100%;
+    width: 80%;
+    font: Poppins;
 }
 
-.modal img {
+.modalButtons{
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    gap: 80px;
+}
+
+.modalButtons button{
+    background-color: #121212;
+    color: white;
+    border-radius: 10%;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+}
+
+.modalButtons button:hover{
+
+    background-color: #2d2d2d;
+    box-shadow: 2px 2px 2px 2px var(--primary-color);
+    transition: all .2s ease;
+
+}
+
+.modal-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-family: Arial, sans-serif;
+}
+
+.modal-content th {
+    background-color: #121212;
+    color: #ddd;
+    padding: 12px;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+}
+
+.modal-content td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.notification-window{
+
+    font-family: "Poppins", sans-serif;
+
+}
+.unoScream {
+    color: white;
+    position: absolute;
+    top: 10%;
+    left: 30%;
+    width: 300px;
+    height: 200px;
+    align-items: center;
+    justify-items: center;
+    border-radius: 10%;
+    transition: all 0.3s ease;
+}
+
+.unoScream-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 80%;
+    font: Poppins;
+}
+
+.unoScream-content .hidden {
+    display: none;
+}
+
+.unoScream .hidden{
+    display: none;
+}
+
+.unoScream img {
     width: 90%;
     height: 90%;
     object-fit: contain;

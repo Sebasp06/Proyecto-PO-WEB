@@ -1,4 +1,5 @@
 
+
 function setSinglePlayerTable(){
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
@@ -143,11 +144,13 @@ function multiplayerSelection() {
 function returnHome() {
     deck = [];
     let rightWindow = document.getElementById("right-window");
+    modal.innerHTML = `<div class="modal-content" id="modal-content"></div>`;
+    modal.classList.add('hidden');
     rightWindow.innerHTML = 
     `
             <div id="welcome-window" class="welcome-window">
                 <strong>BIENVENIDO A</strong>
-                <img src="assets/UNO-Logopng.png" alt="Logo UNO" class="start-img" onclick="gamingModeSelection()"></img>
+                <img src="assets/UNO-Logopng.png" alt="Logo UNO" class="start-img" onclick="setV4PlayerTable()"></img>
                 <p class="press">Presiona para continuar</p>
                 <p class="slogan">¡El clásico que nunca pasa de moda!</p>
                 <p class="team">Grupo 2: Sebastián Pérez, Lisa García y Ana García</p>
