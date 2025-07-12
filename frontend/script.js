@@ -113,7 +113,7 @@ ws.onmessage = (e) => {
       setTimeout(() => {
         notification.classList.toggle('hidden');
         notificationText.classList.toggle('hidden');
-        }, 3000); 
+        }, 2000); 
       updateGameUI(gameState);
       break;
 
@@ -127,7 +127,7 @@ ws.onmessage = (e) => {
       setTimeout(() => {
         notification.classList.toggle('hidden');
         notificationText.classList.toggle('hidden');
-        }, 3000); 
+        }, 2000); 
       updateGameUI(gameState);
 
       break;
@@ -142,7 +142,7 @@ ws.onmessage = (e) => {
       setTimeout(() => {
         notification.classList.toggle('hidden');
         notificationText.classList.toggle('hidden');
-        }, 3000); 
+        }, 2000); 
       updateGameUI(gameState);
       break;
 
@@ -155,7 +155,7 @@ ws.onmessage = (e) => {
       setTimeout(() => {
         notification.classList.toggle('hidden');
         notificationText.classList.toggle('hidden');
-        }, 3000); 
+        }, 2000); 
       updateGameUI(gameState);
       updateGameUI(gameState);
       break;
@@ -169,16 +169,20 @@ ws.onmessage = (e) => {
       setTimeout(() => {
         notification.classList.toggle('hidden');
         notificationText.classList.toggle('hidden');
-        }, 3000); 
-      updateGameUI(gameState);
+        }, 2000); 
       updateGameUI(gameState);
       break;
 
     case 'uno_penalty':
       console.log(`Penalización de ${msg.amount}`);
       gameState = msg.gameState
-      updateGameUI(gameState);
-      console.log('Penalización por no decir UNO');
+      notificationText.textContent = `${msg.player} ha sido penalizado`;
+      notification.classList.toggle('hidden');
+
+      setTimeout(() => {
+        notification.classList.toggle('hidden');
+        notificationText.classList.toggle('hidden');
+        }, 2000); 
       updateGameUI(gameState);
       break;
 
@@ -190,7 +194,7 @@ ws.onmessage = (e) => {
       setTimeout(() => {
         notification.classList.toggle('hidden');
         notificationText.classList.toggle('hidden');
-        }, 3000);
+        }, 2000);
       break;
 
     case 'client_uno':
