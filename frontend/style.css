@@ -343,7 +343,6 @@ strong{
     ;
 }
 
-/*Aqui puse el height y el width para probar que tal se veia*/
 .v4player-deck {
     display: grid;
     position: fixed;
@@ -354,7 +353,7 @@ strong{
         "rival-three rival-three rival-three"
         "rival-one middle rival-two"
         "player player player";
-    gap: 20px;
+    gap: 30px;
 }
 
 .rival-one {

@@ -145,6 +145,8 @@ function returnHome() {
     deck = [];
     let rightWindow = document.getElementById("right-window");
     modal.innerHTML = `<div class="modal-content" id="modal-content"></div>`;
+    unoScreamContent.classList.add('hidden');
+    unoScreamModal.classList.add('hidden');
     modal.classList.add('hidden');
     rightWindow.innerHTML = 
     `

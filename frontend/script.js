@@ -201,7 +201,7 @@ ws.onmessage = (e) => {
       console.log('Jugador humano dijo UNO');
       unoScreamContent.innerHTML = `
                 <img src="assets/UNO-Logopng.png"></img>
-                <p>Haz gritado UNO</p>
+                <p>Has gritado UNO</p>
       `;
       unoScreamModal.classList.toggle('hidden');
 
@@ -557,8 +557,9 @@ function displayCard(clientCard,isHuman, cardOnTable){
 
 async function resetV4PlayerTable(){
     let rightWindow = document.getElementById("right-window");
-    modal.innerHTML = `<div class="modal-content" id="modal-content"></div>`;
-    modal.classList.toggle('hidden');
+    modal.classList.add('hidden');
+    unoScreamContent.classList.add('hidden');
+    unoScreamModal.classList.add('hidden');
     rightWindow.innerHTML = 
     `
     <section id="welcome-window" class="welcome-window">
@@ -606,6 +607,9 @@ async function resetV4PlayerTable(){
 
 async function setV4PlayerTable(){
     startGame();
+    modal.classList.add('hidden');
+    unoScreamContent.classList.add('hidden');
+    unoScreamModal.classList.add('hidden');
     let rightWindow = document.getElementById("right-window");
     rightWindow.innerHTML = 
     `
@@ -650,4 +654,15 @@ async function setV4PlayerTable(){
     welcomeWindow.style.backgroundColor = "#032546";
     
     
+}
+
+function cambiarPlayPause(){
+    if (musica.paused){
+        musica.muted=false;
+        musica.play();
+        musica.volume= 0.2;
+    }
+    else{
+        musica.pause();
+    }
 }
